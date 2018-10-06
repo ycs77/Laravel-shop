@@ -1,0 +1,20 @@
+* {
+  font-family: "Hiragino Sans GB", Helvetica, "Microsoft JhengHei", Arial, sans-serif;
+}
+
+html {
+  position: relative;
+  min-height: 100vh;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: $white;
+  background-color: $black;
+
+  a {
+    color: inherit;
+  }
+}
