@@ -7,6 +7,10 @@ html {
   min-height: 100vh;
 }
 
+body {
+  margin-bottom: 60px;
+}
+
 footer {
   position: absolute;
   bottom: 0;
@@ -17,4 +21,12 @@ footer {
   a {
     color: inherit;
   }
+}
+
+// 頂部導覽列
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  margin-right: 4px;
+  border-radius: 100%;
 }
