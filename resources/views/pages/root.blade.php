@@ -4,4 +4,10 @@
 
 @section('content')
   <h1>這是首頁</h1>
-@stop
+
+  @auth
+    @empty(request()->user()->hasVerifiedEmail())
+      <a href="{{ route('verification.notice') }}">驗證E-mail</a>
+    @endempty
+  @endauth
+@endsection
