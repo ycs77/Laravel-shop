@@ -19,7 +19,11 @@ footer {
   background-color: $black;
 
   a {
-    color: inherit;
+    color: $navbar-dark-color;
+    &:hover {
+      color: $navbar-dark-hover-color;
+      text-decoration: none;
+    }
   }
 }
 
