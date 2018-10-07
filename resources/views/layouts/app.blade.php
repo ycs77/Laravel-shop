@@ -10,10 +10,13 @@
 
     {{-- 樣式 --}}
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @stack('style')
   </head>
   <body>
     <div id="app" class="{{ route_class() }}-page">
       @include('layouts._header')
+
+      <div id="alert-block"></div>
 
       <div class="container my-5">
         @yield('content')
@@ -24,5 +27,9 @@
 
     {{-- JS腳本 --}}
     <script src="{{ mix('js/app.js') }}"></script>
+    @stack('script')
+
+    @include('layouts._alerts')
+
   </body>
 </html>

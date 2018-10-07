@@ -34,3 +34,10 @@ nav.navbar {
   margin-right: 4px;
   border-radius: 100%;
 }
+
+// 訊息通知
+#alert-block {
+  .alert {
+    @include shadow;
+  }
+}

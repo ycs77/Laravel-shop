@@ -26,12 +26,9 @@ class RegisterController extends Controller
     /**
      * Where to redirect users after registration.
      *
-     * @return string
+     * @var string
      */
-    protected function redirectTo()
-    {
-        return route('root');
-    }
+    protected $redirectTo = '/alert/root/sendVerifyMail';
 
     /**
      * Create a new controller instance.

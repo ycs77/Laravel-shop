@@ -32,6 +32,8 @@
   "Sorry, you are not authorized to access this page.": "很抱歉！您沒有權限瀏覽此頁面。",
   "Sorry, your session has expired. Please refresh and try again.": "很抱歉！您的 Session 已過期，請重新整理後再試一次。",
   "Sorry, we are doing some maintenance. Please check back soon.": "很抱歉！我們正在維護網站，請稍候再回來。",
+  "Successful verification": "驗證成功",
+  "Successful password reset": "密碼重設成功",
   "Too Many Requests": "太多請求",
   "Unauthorized": "權限不足",
   "Verify Email Address": "驗證 E-mail",
