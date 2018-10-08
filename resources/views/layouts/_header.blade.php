@@ -22,7 +22,9 @@
               {{ Auth::user()->name ?? 'TEST' }}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+              <a href="{{ route('user_addresses.index') }}" class="dropdown-item">收件地址</a>
+              <div class="dropdown-divider"></div>
+              <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 登出
               </a>
               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
