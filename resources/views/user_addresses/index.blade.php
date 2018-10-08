@@ -1,19 +1,22 @@
 @extends('layouts.app')
 
-@section('title', '收件地址列表')
+@section('title', __('user_address.list'))
 
 @section('content')
   <div class="row">
     <div class="col-lg-10 offset-lg-1">
       <div class="card">
-        <div class="card-header">收件地址列表</div>
-        <table class="table">
+        <div class="card-header d-flex justify-content-between">
+          @lang('user_address.list')
+          <a href="{{ route('user_addresses.create') }}">@lang('user_address.create')</a>
+        </div>
+        <table class="table mb-0">
           <thead>
             <tr>
-              <th>收件人</th>
-              <th>地址</th>
-              <th>電話</th>
-              <th>編輯</th>
+              <th>@lang('validation.attributes.contact_name')</th>
+              <th>@lang('validation.attributes.address')</th>
+              <th>@lang('validation.attributes.phone')</th>
+              <th>@lang('validation.attributes.action')</th>
             </tr>
           </thead>
           <tbody>

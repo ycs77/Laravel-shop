@@ -9,6 +9,7 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #f7f7f7;
 }
 
 footer {
@@ -29,7 +30,7 @@ footer {
 
 // 頂部導覽列
 nav.navbar {
-  height: 64px;
+  min-height: 64px;
 }
 
 .user-avatar {

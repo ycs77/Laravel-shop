@@ -1,7 +1,10 @@
 import './bootstrap'
-import h from './helper'
+import h from './lib/helper'
 
 import Vue from 'vue'
+
+import SelectDistrict from './components/SelectDistrict.vue'
+import UserAddressesCreateAndEdit from './components/UserAddressesCreateAndEdit.vue'
 
 window.Vue = Vue
 for (const k in h) {
@@ -11,6 +14,9 @@ for (const k in h) {
 setOptions({
     container: '#alert-block'
 })
+
+Vue.component('SelectDistrict', SelectDistrict)
+Vue.component('UserAddressesCreateAndEdit', UserAddressesCreateAndEdit)
 
 const app = new Vue({
     el: '#app'

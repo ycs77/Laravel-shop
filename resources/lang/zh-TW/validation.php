@@ -170,5 +170,12 @@ return [
         'title'                 => '標題',
         'username'              => '使用者名字',
         'year'                  => '年',
+
+        'action'                => '編輯',
+        'city'                  => '縣市',
+        'district'              => '鄉鎮市區',
+        'full_address'          => '完整地址',
+        'contact_name'          => '收件人姓名',
+        'contact_phone'         => '收件人電話',
     ],
 ];
