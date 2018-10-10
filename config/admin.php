@@ -236,7 +236,7 @@ return [
     | "sidebar-mini".
     |
     */
-    'layout' => ['fixed', 'sidebar-mini', 'sidebar-collapse'],
+    'layout' => ['fixed', 'sidebar-mini'],
 
     /*
     |--------------------------------------------------------------------------
