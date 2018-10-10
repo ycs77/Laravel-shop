@@ -8,6 +8,15 @@ use App\Http\Requests\UserAddressRequest;
 
 class UserAddressController extends Controller
 {
+    private $field = [
+        'city',
+        'district',
+        'address',
+        'zip_code',
+        'contact_name',
+        'contact_phone',
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -39,60 +48,52 @@ class UserAddressController extends Controller
      */
     public function store(UserAddressRequest $request)
     {
-        $request->user()->addresses()->create($request->only([
-            'city',
-            'district',
-            'address',
-            'zip_code',
-            'contact_name',
-            'contact_phone',
-        ]));
+        $request->user()->addresses()->create($request->only($this->field));
 
-        return redirect()->route('user_addresses.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->route('user_addresses.index')->with('alerts', __('crud.success.create'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param UserAddress $user_address
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(UserAddress $user_address)
     {
-        //
+        $this->authorize('own', $user_address);
+
+        return view('user_addresses.create_and_edit', ['address' => $user_address]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  App\Http\Requests\UserAddressRequest  $request
+     * @param UserAddress $user_address
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserAddressRequest $request, UserAddress $user_address)
     {
-        //
+        $this->authorize('own', $user_address);
+
+        $user_address->update($request->only($this->field));
+
+        return redirect()->route('user_addresses.index')->with('alerts', __('crud.success.update'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param UserAddress $user_address
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(UserAddress $user_address)
     {
-        //
+        $this->authorize('own', $user_address);
+
+        $user_address->delete();
+
+        return redirect()->route('user_addresses.index')->with('alerts', __('crud.success.delete'));
     }
 }

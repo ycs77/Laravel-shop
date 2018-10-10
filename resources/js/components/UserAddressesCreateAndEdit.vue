@@ -1,12 +1,18 @@
 <script>
 export default {
   name: 'user-addresses-create-and-edit',
+  props: {
+    initAddress: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       city: '',
       district: '',
       zip_code: '',
-      address: ''
+      address: this.initAddress
     }
   },
   computed: {

@@ -26,8 +26,12 @@
                 <td>{{ $address->full_address }}</td>
                 <td>{{ $address->contact_phone }}</td>
                 <td>
-                  <button class="btn btn-primary">修改</button>
-                  <button class="btn btn-danger">刪除</button>
+                  <a href="{{ route('user_addresses.edit', ['user_address' => $address->id]) }}" class="btn btn-primary">修改</a>
+                  <form action="{{ route('user_addresses.destroy', ['user_address' => $address->id]) }}" method="post" class="d-inline-block" onsubmit="return confirm('確認刪除該收件地址?')">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger" type="submit">刪除</button>
+                  </form>
                 </td>
               </tr>
             @endforeach

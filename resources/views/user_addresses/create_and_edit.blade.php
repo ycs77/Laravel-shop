@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', __('user_address.create'))
+@section('title', __('user_address.' . (!$address->id ? 'create' : 'edit')))
 
 @section('content')
 
   <div class="row">
     <div class="col-lg-10 offset-lg-1">
       <div class="card">
-        <div class="card-header">@lang('user_address.create')</div>
+        <div class="card-header">@lang('user_address.' . (!$address->id ? 'create' : 'edit'))</div>
         <div class="card-body">
 
           {{-- 錯誤訊息開始 --}}
@@ -18,8 +18,11 @@
           @endif
           {{-- 錯誤訊息結束 --}}
 
-          <user-addresses-create-and-edit inline-template>
-            <form action="{{ route('user_addresses.store') }}" method="post">
+          <user-addresses-create-and-edit init-address="{{ old('address', $address->address) }}" inline-template>
+            <form action="{{ !$address->id ? route('user_addresses.store') : route('user_addresses.update', ['user_address' => $address->id]) }}" method="post">
+              @if ($address->id)
+                @method('PUT')
+              @endif
               @csrf
 
               <select-district @change="onDistrictChanged" :init-value="['{{ old('city', $address->city) }}', '{{ old('district', $address->district) }}']" inline-template>
@@ -47,7 +50,7 @@
 
               <div class="form-group">
                 <label>@lang('validation.attributes.address')</label>
-                <input type="text" class="form-control" name="address" value="{{ old('address', $address->address) }}" v-model="address">
+                <input type="text" class="form-control" name="address" v-model="address">
               </div>
 
               <div class="form-group">

@@ -8,8 +8,12 @@
   @endphp
 
   <script>
-    @foreach ($alerts as $alert)
-      showAlert('{{ $alert["msg"] }}', '{{ $alert["type"] ?? "success" }}')
-    @endforeach
+    @if (is_string($alerts))
+      showAlert('{{ $alerts }}')
+    @else
+      @foreach ($alerts as $alert)
+        showAlert('{{ is_string($alert) ? $alert : $alert["msg"] }}', '{{ $alert["type"] ?? "success" }}')
+      @endforeach
+    @endif
   </script>
 @endif
