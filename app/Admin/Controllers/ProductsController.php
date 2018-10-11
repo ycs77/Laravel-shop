@@ -53,7 +53,7 @@ class ProductsController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
+            ->header('編輯商品')
             ->description('description')
             ->body($this->form()->edit($id));
     }
@@ -67,7 +67,7 @@ class ProductsController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
+            ->header('新增商品')
             ->description('description')
             ->body($this->form());
     }
@@ -139,14 +139,22 @@ class ProductsController extends Controller
     {
         $form = new Form(new Product);
 
-        $form->text('title', 'Title');
-        $form->textarea('description', 'Description');
-        $form->image('image', 'Image');
-        $form->switch('on_sale', 'On sale')->default(1);
-        $form->decimal('rating', 'Rating')->default(5.00);
-        $form->number('sold_count', 'Sold count');
-        $form->number('review_count', 'Review count');
-        $form->decimal('price', 'Price');
+        $form->text('title', '商品名稱')->rules('required');
+        $form->image('image', '封面圖片')->rules('required|image')->uniqueName();
+        $form->editor('description', '商品介紹')->rules('required');
+        $form->switch('on_sale', '是否上架')->default(0);
+
+        $form->hasMany('skus', 'SKU 列表', function (Form\NestedForm $form) {
+            $form->text('title', 'SKU 名稱')->rules('required');
+            $form->text('description', 'SKU 介紹')->rules('required');
+            $form->text('price', '單價')->rules('required|numeric|min:0.01');
+            $form->text('stock', '剩餘庫存')->rules('required|integer|min:0');
+        });
+
+        // 定義事件回調，當模型即將保存時會觸發這個回調
+        $form->saving(function (Form $form) {
+            $form->model()->price = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->min('price') ? : 0;
+        });
 
         return $form;
     }
