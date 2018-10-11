@@ -1,4 +1,12 @@
 .products-index-page {
+  .serach-form {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $card-border-color;
+  }
+
   .products-list {
     padding: 0 15px;
   }
@@ -7,7 +15,7 @@
     margin-bottom: 10px;
   }
   .product-content {
-    border: 1px solid #eeeeee;
+    border: 1px solid $card-border-color;
     .top {
       padding: 5px;
       img {
@@ -52,12 +60,12 @@
       }
       & > div {
         &:first-child {
-          border-right: 1px solid #eee;
+          border-right: 1px solid $card-border-color;
         }
         padding: 10px 5px;
         line-height: 12px;
         flex: 1 1 0;
-        border-top: 1px solid #eee;
+        border-top: 1px solid $card-border-color;
       }
     }
   }
