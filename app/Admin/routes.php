@@ -14,4 +14,6 @@ Route::group([
 
     $router->get('users', 'UserController@index');
 
+    $router->get('products', 'ProductsController@index');
+
 });
