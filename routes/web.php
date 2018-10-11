@@ -1,6 +1,8 @@
 <?php
 
-Route::get('/', 'PagesController@root')->name('root');
+Route::redirect('/', 'products')->name('root');
+
+Route::resource('products', 'ProductController')->only(['index', 'show']);
 
 Auth::routes(['verify' => true]);
 
