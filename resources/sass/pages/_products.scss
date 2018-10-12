@@ -38,13 +38,7 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden;
-        text-overflow: ellipsis; 
-        a {
-          font-size: 32px;
-          line-height: 14px;
-          color: #303030;
-          text-decoration: none;
-        }
+        text-overflow: ellipsis;
       }
     }
     .bottom {
@@ -67,6 +61,110 @@
         flex: 1 1 0;
         border-top: 1px solid $card-border-color;
       }
+    }
+  }
+}
+
+.products-show-page {
+  .cover {
+    border: 1px solid $card-border-color;
+    padding: 30px 0;
+  }
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .price {
+    line-height: 30px;
+    background-color: $gray-200;
+    color: red;
+    font-size: 20px;
+    label {
+      width: 69px;
+      color: $gray-600;
+      font-size: 12px;
+      padding-left: 10px;
+    }
+    em {
+      font-family: Arial;
+      font-size: 18px;
+      font-style: normal;
+      text-decoration: none;
+      vertical-align: middle;
+    }
+    span {
+      font-family: Arial;
+      font-size: 24px;
+      font-weight: bolder;
+      text-decoration: none;
+      vertical-align: middle;
+    }
+  }
+  .sales_and_reviews {
+    border: 1px dotted $gray-400;
+    border-width: 1px 0;
+    margin: 5px 0 10px;
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+    & > div {
+      width: 33.333333%;
+      text-align: center;
+      padding: 5px;
+      &.sold_count,
+      &.review_count {
+        border-right: 1px dotted $gray-400;
+      }
+      .count {
+        color: $red;
+        font-weight: 700;
+      }
+    }
+  }
+  .skus {
+    & > label {
+      color: $gray-500;
+      font-size: 12px;
+      padding: 0 10px;
+    }
+    .btn-group {
+      margin-left: -10px;
+      label {
+        border-radius: 0 !important;
+        margin: 1px 5px;
+      }
+    }
+  }
+  .cart_mount {
+    font-size: 12px;
+    color: $gray-600;
+    margin: 10px 0 20px;
+    label {
+      color: $gray-500;
+      font-size: 12px;
+      padding: 0 10px;
+    }
+    input {
+      width: 80px;
+      display: inline-block;
+      text-align: right;
+    }
+    span {
+      color: $gray-500;
+      font-size: 12px;
+      padding-left: 10px;
+    }
+  }
+  .buttons {
+    padding-left: 44px;
+  }
+
+  .product-detail  {
+    margin: 20px 0;
+    .tab-content {
+      border: 1px solid $gray-200;
+      padding: 20px;
     }
   }
 }

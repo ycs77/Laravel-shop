@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Exceptions\InvalidRequestException;
 
 class ProductController extends Controller
 {
@@ -17,6 +18,7 @@ class ProductController extends Controller
     {
         $builder = Product::where('on_sale', true);
 
+        // 處理搜尋
         if ($search = $request->input('search', '')) {
             $like = "%$search%";
             $builder->where(function ($query) use ($like) {
@@ -29,6 +31,7 @@ class ProductController extends Controller
             });
         }
 
+        // 處理排序
         if ($orderby = $request->input('orderby', '')) {
             if (preg_match('/^(.+)_(asc|desc)$/', $orderby, $m)) {
                 if (in_array($m[1], ['price', 'sold_count', 'rating'])) {
@@ -55,6 +58,11 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        // 判斷商品是否已上架
+        if (!$product->on_sale) {
+            throw new InvalidRequestException('商品未上架');
+        }
+
+        return view('products.show', ['product' => $product]);
     }
 }
