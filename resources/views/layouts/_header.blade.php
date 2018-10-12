@@ -23,6 +23,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a href="{{ route('user_addresses.index') }}" class="dropdown-item">收件地址</a>
+              <a href="{{ route('products.favorites') }}" class="dropdown-item">我的收藏</a>
               <div class="dropdown-divider"></div>
               <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 登出
