@@ -10,6 +10,9 @@ Route::middleware('auth')->group(function () {
         Route::post('products/{product}/favorite', 'ProductController@favor')->name('products.favor');
         Route::delete('products/{product}/favorite', 'ProductController@disfavor')->name('products.disfavor');
         Route::get('products/favorites', 'ProductController@favorites')->name('products.favorites');
+
+        // 購物車
+        Route::post('cart', 'CartController@add')->name('cart.add');
     });
 });
 

@@ -39,7 +39,7 @@
                 @endforeach
               </div>
             </div>
-            <div class="cart_mount">
+            <div class="cart_amount">
               <label>數量</label>
               <input type="number" class="form-control form-control-sm" value="1" min="0" max="9999">
               <span>件</span>
@@ -104,11 +104,39 @@
           }
         })
       })
+
       $('.btn-disfaver').click(function () {
         axios.delete('{{ route('products.disfavor', ['product' => $product->id]) }}').then(function () {
           swal('成功取消收藏', '', 'success').then(function () {
             location.reload()
           })
+        })
+      })
+
+      $('.btn-add-to-cart').click(function () {
+        axios.post('{{ route('cart.add') }}', {
+          sku_id: $('label.active input[name=skus]').val(),
+          amount: $('.cart_amount input').val()
+        }).then(function () {
+          swal('成功加入購物車', '', 'success')
+        }).catch(function (error) {
+          if (error.response.status === 401) {
+            swal('請先登入', '', 'error').then(function () {
+              location.href = '{{ route('login') }}'
+            })
+          } else if (error.response.status === 422) {
+            var html = ''
+            var ers = error.response.data.errors
+            Object.keys(ers).forEach(function (key) {
+              ers[key].forEach(function (error) {
+                html += error + '<br>'
+              })
+            })
+            html = '<div>' + html.replace(/<br>$/, '') + '</div>'
+            swal({ content: $(html).get(0), icon: 'error' })
+          } else {
+            swal('系統錯誤', '', 'error')
+          }
         })
       })
     })
