@@ -1,5 +1,4 @@
 import './bootstrap'
-import h from './lib/helper'
 
 import Vue from 'vue'
 
@@ -9,7 +8,6 @@ import SearchBar from './components/SearchBar.vue'
 import ProductShow from './components/ProductShow.vue'
 
 window.Vue = Vue
-for (const k in h) window[k] = h[k]
 
 Vue.component('SelectDistrict', SelectDistrict)
 Vue.component('UserAddressesCreateAndEdit', UserAddressesCreateAndEdit)

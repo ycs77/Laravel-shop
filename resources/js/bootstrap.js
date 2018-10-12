@@ -54,3 +54,8 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+let helper = require('./lib/helper');
+for (const k in helper) window[k] = helper[k];
+
+require('sweetalert');

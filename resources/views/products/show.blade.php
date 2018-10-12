@@ -46,7 +46,11 @@
               <span class="stock" v-if="showStock">庫存：@{{ stock }}件</span>
             </div>
             <div class="buttons">
-              <button class="btn btn-success btn-faver">❤ 收藏</button>
+              @if (!$favored)
+                <button class="btn btn-success btn-faver">❤ 收藏</button>
+              @else
+                <button class="btn btn-danger btn-disfaver">取消收藏</button>
+              @endif
               <button class="btn btn-primary btn-add-to-cart">加入購物車</button>
             </div>
           </div>
@@ -82,6 +86,31 @@
   <script>
     $(function () {
       $('[data-toggle="tooltip"]').tooltip({ trigger: 'hover' })
+
+      $('.btn-faver').click(function () {
+        axios.post('{{ route('products.favor', ['product' => $product->id]) }}').then(function () {
+          swal('成功加入收藏', '', 'success').then(function () {
+            location.reload()
+          })
+        }).catch(function (error) {
+          if (error.response.status === 401) {
+            swal('請先登入', '', 'error').then(function () {
+              location.href = '{{ route('login') }}'
+            })
+          } else if (error.response.data.msg) {
+            swal(error.response.data.msg, '', 'error')
+          } else {
+            swal('系統錯誤', '', 'error')
+          }
+        })
+      })
+      $('.btn-disfaver').click(function () {
+        axios.delete('{{ route('products.disfavor', ['product' => $product->id]) }}').then(function () {
+          swal('成功取消收藏', '', 'success').then(function () {
+            location.reload()
+          })
+        })
+      })
     })
   </script>
 @endpush

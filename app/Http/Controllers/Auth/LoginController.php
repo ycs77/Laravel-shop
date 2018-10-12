@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -27,6 +28,9 @@ class LoginController extends Controller
      */
     protected function redirectTo()
     {
+        if (request()->input('redirectTo')) {
+            return request()->input('redirectTo');
+        }
         return route('root');
     }
 

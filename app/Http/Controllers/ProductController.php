@@ -53,16 +53,56 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param Product $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Request $request, Product $product)
     {
         // 判斷商品是否已上架
         if (!$product->on_sale) {
             throw new InvalidRequestException('商品未上架');
         }
 
-        return view('products.show', ['product' => $product]);
+        $favored = false;
+
+        if ($user = $request->user()) {
+            $favored = (boolean)$user->favoriteProducts()->find($product->id);
+        }
+
+        return view('products.show', ['product' => $product, 'favored' => $favored]);
+    }
+
+    /**
+     * 將商品加入收藏
+     *
+     * @param Request $request
+     * @param Product $product
+     * @return void
+     */
+    public function favor(Request $request, Product $product)
+    {
+        $user = $request->user();
+
+        if ($user->favoriteProducts()->find($product->id)) {
+            return [];
+        }
+
+        $user->favoriteProducts()->attach($product);
+        return [];
+    }
+
+    /**
+     * 取消商品收藏
+     *
+     * @param Request $request
+     * @param Product $product
+     * @return void
+     */
+    public function disfavor(Request $request, Product $product)
+    {
+        $user = $request->user();
+        $user->favoriteProducts()->detach($product);
+        return [];
     }
 }
