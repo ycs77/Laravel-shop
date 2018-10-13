@@ -12,7 +12,9 @@ Route::middleware('auth')->group(function () {
         Route::get('products/favorites', 'ProductController@favorites')->name('products.favorites');
 
         // 購物車
+        Route::get('cart', 'CartController@index')->name('cart.index');
         Route::post('cart', 'CartController@add')->name('cart.add');
+        Route::delete('cart/{sku}', 'CartController@remove')->name('cart.remove');
     });
 });
 

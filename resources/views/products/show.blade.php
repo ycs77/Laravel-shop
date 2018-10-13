@@ -118,7 +118,9 @@
           sku_id: $('label.active input[name=skus]').val(),
           amount: $('.cart_amount input').val()
         }).then(function () {
-          swal('成功加入購物車', '', 'success')
+          swal('成功加入購物車', '', 'success').then(function () {
+            location.href = '{{ route('cart.index') }}'
+          })
         }).catch(function (error) {
           if (error.response.status === 401) {
             swal('請先登入', '', 'error').then(function () {
