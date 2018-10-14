@@ -14,6 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Blade::component('component.card', 'card');
         Blade::component('component.redirectTo', 'redirectTo');
     }
 

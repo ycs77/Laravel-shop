@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('cart/{sku}', 'CartController@remove')->name('cart.remove');
 
         // 訂單
-        Route::resource('orders', 'OrderController')->only('store');
+        Route::resource('orders', 'OrderController')->only(['index', 'store', 'show']);
     });
 });
 

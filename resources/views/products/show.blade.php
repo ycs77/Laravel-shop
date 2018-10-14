@@ -4,7 +4,7 @@
 
 @section('content')
 
-  @component('component.card')
+  @card
     <product-show inline-template>
       <div class="product-info">
 
@@ -78,7 +78,7 @@
 
       </div>
     </product-show>
-  @endcomponent
+  @endcard
 
 @endsection
 

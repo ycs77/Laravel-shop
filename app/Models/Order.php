@@ -19,17 +19,17 @@ class Order extends Model
     const SHIP_STATUS_RECEIVED = 'received';
 
     public static $refundStatusMap = [
-        self::REFUND_STATUS_PENDING    => '未退款',
-        self::REFUND_STATUS_APPLIED    => '已申請退款',
-        self::REFUND_STATUS_PROCESSING => '退款中',
-        self::REFUND_STATUS_SUCCESS    => '退款成功',
-        self::REFUND_STATUS_FAILED     => '退款失敗',
+        self::REFUND_STATUS_PENDING    => 'primary',
+        self::REFUND_STATUS_APPLIED    => 'info',
+        self::REFUND_STATUS_PROCESSING => 'warning',
+        self::REFUND_STATUS_SUCCESS    => 'success',
+        self::REFUND_STATUS_FAILED     => 'danger',
     ];
 
     public static $shipStatusMap = [
-        self::SHIP_STATUS_PENDING   => '未發貨',
-        self::SHIP_STATUS_DELIVERED => '已發貨',
-        self::SHIP_STATUS_RECEIVED  => '已收貨',
+        self::SHIP_STATUS_PENDING   => 'primary',
+        self::SHIP_STATUS_DELIVERED => 'danger',
+        self::SHIP_STATUS_RECEIVED  => 'success',
     ];
 
     protected $fillable = [
@@ -75,16 +75,6 @@ class Order extends Model
             }
         });
     }
-    
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function items()
-    {
-        return $this->hasMany(OrderItem::class);
-    }
 
     public static function findAvailableNo()
     {
@@ -101,5 +91,20 @@ class Order extends Model
         \Log::warning('find order no failed');
 
         return false;
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function getRefundStatusColorAttribute()
+    {
+        return static::$refundStatusMap[$this->refund_status];
     }
 }

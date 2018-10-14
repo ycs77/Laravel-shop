@@ -4,7 +4,7 @@
 
 @section('content')
 
-  @component('component.card')
+  @card
     @slot('header', '我的收藏')
 
     <div class="row products-list">
@@ -34,6 +34,6 @@
     </div>
     
     <div class="my-3">{{ $products->links() }}</div>
-  @endcomponent
+  @endcard
 
 @endsection

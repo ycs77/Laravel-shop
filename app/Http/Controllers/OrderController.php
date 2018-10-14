@@ -14,6 +14,28 @@ use App\Exceptions\InvalidRequestException;
 
 class OrderController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $orders = Order::with(['items.product', 'items.productSku'])
+            ->where('user_id', $request->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate();
+
+        return view('orders.index', ['orders' => $orders]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\OrderRequest $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(OrderRequest $request)
     {
         $user  = $request->user();
@@ -71,5 +93,16 @@ class OrderController extends Controller
         });
 
         return $order;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Order $order
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Order $order)
+    {
+        //
     }
 }

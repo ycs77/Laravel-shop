@@ -4,7 +4,7 @@
 
 @section('content')
 
-  @component('component.card')
+  @card
     @slot('header', '商品列表')
 
     {{-- 搜尋 篩選 --}}
@@ -61,6 +61,6 @@
     </div>
     
     <div class="my-3">{{ $products->appends($filters)->links() }}</div>
-  @endcomponent
+  @endcard
 
 @endsection

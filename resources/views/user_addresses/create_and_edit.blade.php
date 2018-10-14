@@ -4,7 +4,7 @@
 
 @section('content')
 
-  @component('component.card')
+  @card
     @slot('header', __('user_address.' . (!$address->id ? 'create' : 'edit')))
 
       {{-- 錯誤訊息開始 --}}
@@ -72,6 +72,6 @@
         </form>
       </user-addresses-create-and-edit>
 
-  @endcomponent
+  @endcard
 
 @endsection

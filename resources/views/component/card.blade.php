@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col-lg-10 offset-lg-1">
+@if ($row ?? true)<div class="row">@endif
+  <div @if ($sm ?? true) class="col-lg-10 offset-lg-1" @endif>
     <div class="card">
       @if (isset($header) && $header)
         <div class="card-header d-flex justify-content-between">
@@ -13,4 +13,4 @@
       @endif
     </div>
   </div>
-</div>
+@if ($row ?? true)</div>@endif

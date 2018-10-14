@@ -4,12 +4,12 @@
 
 @section('content')
 
-  @component('component.card', ['body' => false])
+  @card
     @slot('header', '我的購物車')
 
-    <table class="table mb-0">
+    <table class="table table-bordered mb-0">
       <thead>
-        <tr>
+        <tr class="text-center">
           <th><input type="checkbox" id="select-all"></th>
           <th>商品內容</th>
           <th>單價</th>
@@ -43,7 +43,7 @@
             <td>
               <input type="number" class="form-control form-control-sm amount" @if(!$item->productSku->product->on_sale) disabled @endif name="amount" value="{{ $item->amount }}">
             </td>
-            <td>
+            <td class="text-center">
               <button class="btn btn-sm btn-danger btn-remove">移除</button>
             </td>
           </tr>
@@ -76,7 +76,7 @@
         </div>
       </form>
     </div>
-  @endcomponent
+  @endcard
 
 @endsection
 
