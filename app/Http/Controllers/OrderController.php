@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Order;
+use App\Jobs\CloseOrder;
 use App\Models\ProductSku;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
@@ -62,6 +63,9 @@ class OrderController extends Controller
             // 將下單的商品從購物車中移除
             $skuIds = collect($request->input('items'))->pluck('sku_id');
             $user->cartItems()->whereIn('product_sku_id', $skuIds)->delete();
+
+            // 開啟一個任務，一段時間仍未付款者，將自動結束訂單
+            $this->dispatch(new CloseOrder($order, config('app.order_ttl')));
 
             return $order;
         });
