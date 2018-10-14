@@ -45,4 +45,13 @@ class OrderRequest extends Request
             'items.*.amount' => 'required|integer|min:1',
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'items' => '商品',
+            'items.*.sku_id' => '商品',
+            'items.*.amount' => '商品數量',
+        ];
+    }
 }

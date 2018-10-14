@@ -98,11 +98,13 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Order $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show(Request $request, Order $order)
     {
-        //
+        $this->authorize('own', $order);
+        return view('orders.show', ['order' => $order->load(['items.productSku', 'items.product'])]);
     }
 }

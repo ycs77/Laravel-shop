@@ -121,9 +121,9 @@
             amount: $input.val(),
           })
         })
-        axios.post('{{ route('orders.store') }}', data).then(function () {
+        axios.post('{{ route('orders.store') }}', data).then(function (res) {
           swal('訂單提交成功', '', 'success').then(function () {
-            location.reload()
+            location.href = '/orders/' + res.data.id
           })
         }).catch(function (error) {
           if (error.response.status === 422) {
