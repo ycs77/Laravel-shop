@@ -6,7 +6,6 @@
 
   @card(['body' => false])
     @slot('header', '訂單詳情')
-
     
     <table class="table mb-0">
       <thead>
@@ -60,11 +59,11 @@
       <div class="col-sm text-right">
         <div class="total-amount">
           <span>訂單總價：</span>
-          <div class="value">${{ $order->total_amount }}</div>
+          <div class="value pr-4">${{ $order->total_amount }}</div>
         </div>
         <div>
           <span>訂單狀態：</span>
-          <div class="value">
+          <div class="value pr-4">
             @if($order->paid_at)
               <span class="badge badge-{{ $order->refund_status_color }}">
                 @if($order->refund_status === \App\Models\Order::REFUND_STATUS_PENDING)
@@ -80,6 +79,14 @@
             @endif
           </div>
         </div>
+
+        @if(!$order->paid_at && !$order->closed)
+        <div class="my-3 pr-4">
+          <a class="btn btn-primary btn-sm" href="{{ route('payment.website', ['order' => $order->id]) }}">
+            付款
+          </a>
+        </div>
+        @endif
       </div>
     </div>
   @endcard

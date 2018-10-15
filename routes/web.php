@@ -18,11 +18,15 @@ Route::middleware('auth')->group(function () {
 
         // 訂單
         Route::resource('orders', 'OrderController')->only(['index', 'store', 'show']);
+
+        // 付款
+        Route::get('payment/{order}/website', 'PaymentController@payByWebsite')->name('payment.website');
     });
 });
 
 Route::redirect('/', 'products')->name('root');
-
 Route::resource('products', 'ProductController')->only(['index', 'show']);
 
 Route::get('alert/{route}/{message}', 'AlertController@handle');
+
+Route::post('payment/website/notify', 'PaymentController@websiteNotify')->name('payment.website.notify');
