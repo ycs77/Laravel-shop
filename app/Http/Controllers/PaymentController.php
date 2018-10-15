@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\Order;
-use Illuminate\Http\Request;
+use App\Events\OrderPaid;
 use App\Exceptions\InvalidRequestException;
+use App\Models\Order;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
@@ -41,6 +42,13 @@ class PaymentController extends Controller
             'payment_no'     => $data['trade_no'],
         ]);
 
+        $this->afterPaid($order);
+
         return redirect()->route('orders.show', [$order]);
+    }
+
+    protected function afterPaid(Order $order)
+    {
+        event(new OrderPaid($order));
     }
 }
