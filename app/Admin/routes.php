@@ -20,6 +20,7 @@ Route::group([
     $router->get('products/{id}/edit', 'ProductsController@edit');
     $router->put('products/{id}', 'ProductsController@update');
 
-    $router->get('orders', 'OrderController@index');
+    $router->get('orders', 'OrderController@index')->name('admin.orders.index');
+    $router->get('orders/{id}', 'OrderController@show')->name('admin.orders.show');
 
 });
