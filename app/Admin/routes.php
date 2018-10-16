@@ -14,13 +14,14 @@ Route::group([
 
     $router->get('users', 'UserController@index');
 
-    $router->get('products', 'ProductsController@index');
-    $router->get('products/create', 'ProductsController@create');
-    $router->post('products', 'ProductsController@store');
-    $router->get('products/{id}/edit', 'ProductsController@edit');
-    $router->put('products/{id}', 'ProductsController@update');
+    $router->get('products', 'ProductController@index');
+    $router->get('products/create', 'ProductController@create');
+    $router->post('products', 'ProductController@store');
+    $router->get('products/{id}/edit', 'ProductController@edit');
+    $router->put('products/{id}', 'ProductController@update');
 
     $router->get('orders', 'OrderController@index')->name('admin.orders.index');
-    $router->get('orders/{id}', 'OrderController@show')->name('admin.orders.show');
+    $router->get('orders/{order}', 'OrderController@show')->name('admin.orders.show');
+    $router->post('orders/{order}', 'OrderController@ship')->name('admin.orders.ship');
 
 });

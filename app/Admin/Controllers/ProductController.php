@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     use HasResourceActions;
 

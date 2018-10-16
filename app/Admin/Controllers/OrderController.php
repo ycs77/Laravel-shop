@@ -2,13 +2,15 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Order;
+use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -31,18 +33,48 @@ class OrderController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed $id
+     * @param Order $order
      * @param Content $content
      * @return Content
      */
-    public function show($id, Content $content)
+    public function show(Order $order, Content $content)
     {
-        $order = Order::find($id);
-
         return $content
             ->header('查看訂單')
             ->description('description')
             ->body(view('admin.orders.show', ['order' => $order]));
+    }
+
+    /**
+     * 發貨
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return void
+     */
+    public function ship(Order $order, Request $request)
+    {
+        if (!$order->paid_at) {
+            throw new InvalidRequestException('該訂單尚未付款');
+        }
+        if ($order->ship_status !== Order::SHIP_STATUS_PENDING) {
+            throw new InvalidRequestException('該訂單尚已發貨');
+        }
+
+        $data = $request->validate([
+            'express_company' => ['required'],
+            'express_no' => ['required'],
+        ], [], [
+            'express_company' => '物流公司',
+            'express_no' => '物流單號',
+        ]);
+
+        $order->update([
+            'ship_status' => Order::SHIP_STATUS_DELIVERED,
+            'ship_data' => $data,
+        ]);
+
+        return redirect()->back();
     }
 
     /**
