@@ -55,6 +55,16 @@
           <div class="line-label">訂單編號：</div>
           <div class="line-value">{{ $order->no }}</div>
         </div>
+        <div class="line">
+          <div class="line-label">物流狀態：</div>
+          <div class="line-value">{{ __("order.ship.{$order->ship_status}") }}</div>
+        </div>
+        @if($order->ship_data)
+        <div class="line">
+          <div class="line-label">物流信息：</div>
+          <div class="line-value">{{ $order->ship_data['express_company'] }} {{ $order->ship_data['express_no'] }}</div>
+        </div>
+        @endif
       </div>
       <div class="col-sm text-right">
         <div class="total-amount">
@@ -82,9 +92,18 @@
 
         @if(!$order->paid_at && !$order->closed)
         <div class="my-3 pr-4">
-          <a class="btn btn-primary btn-sm" href="{{ route('payment.website', ['order' => $order->id]) }}">
+          <a class="btn btn-primary btn-sm" href="{{ route('payment.website', [$order]) }}">
             付款
           </a>
+        </div>
+        @endif
+
+        @if($order->ship_status === \App\Models\Order::SHIP_STATUS_DELIVERED)
+        <div class="my-3 pr-4">
+          <form method="post" action="{{ route('orders.received', [$order]) }}" onsubmit="return confirm('確認已收到商品?')">
+            @csrf
+            <button class="btn btn-sm btn-success">確認收貨</button>
+          </form>
         </div>
         @endif
       </div>
