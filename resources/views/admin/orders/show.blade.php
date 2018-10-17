@@ -79,11 +79,51 @@
       <tr>
         <td>物流公司：</td>
         <td>{{ $order->ship_data['express_company'] }}</td>
-        <td>物流单号：</td>
+        <td>物流單號：</td>
         <td>{{ $order->ship_data['express_no'] }}</td>
       </tr>
+      @endif
+
+      @if($order->refund_status !== \App\Models\Order::REFUND_STATUS_PENDING)
+        <tr>
+          <td>退款狀態：</td>
+          <td colspan="2">{{ __("order.refund.{$order->refund_status}") }}，理由：{{ $order->extra['refund_reason'] }}</td>
+          <td>
+            @if($order->refund_status === \App\Models\Order::REFUND_STATUS_APPLIED)
+            <button class="btn btn-sm btn-success" id="btn-refund-agree">同意</button>
+            <button class="btn btn-sm btn-danger" id="btn-refund-disagree">不同意</button>
+            @endif
+          </td>
+        </tr>
       @endif
       </tbody>
     </table>
   </div>
 </div>
+
+<script>
+$(function() {
+  $('#btn-refund-disagree').click(function() {
+    swal({
+      title: '輸入拒絕退款裡由',
+      content: 'input'
+    }).then(function(input){
+      if (input === false) {
+        return
+      }
+      if (!input) {
+        swal('理由不能為空', '', 'error')
+        return
+      }
+      axios.post('{{ route('admin.orders.handle_refund', $order) }}', {
+        agree: false,
+        reason: input
+      }).then(function () {
+        swal('操作成功', '', 'success').then(function() {
+          location.reload()
+        })
+      })
+    })
+  })
+})
+</script>

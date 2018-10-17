@@ -103,6 +103,13 @@
               <span class="badge badge-danger">未付款</span>
             @endif
           </div>
+
+          @if(isset($order->extra['refund_disagree_reason']))
+          <div>
+            <span>拒絕退款理由：</span>
+            <div class="value">{{ $order->extra['refund_disagree_reason'] }}</div>
+          </div>
+          @endif
         </div>
 
         @if(!$order->paid_at && !$order->closed)

@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\HandleRefundRequest;
 use App\Models\Order;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -111,5 +112,27 @@ class OrderController extends Controller
         });
 
         return $grid;
+    }
+
+    public function handleRefund(Order $order, HandleRefundRequest $request)
+    {
+        if ($order->refund_status !== Order::REFUND_STATUS_APPLIED) {
+            throw new InvalidRequestException('訂單狀態不正確');
+        }
+
+        if ($request->input('agree')) {
+            // 先留空
+            // todo
+        } else {
+            $extra = $order->extra ? : [];
+            $extra['refund_disagree_reason'] = $request->input('reason');
+
+            $order->update([
+                'refund_status' => Order::REFUND_STATUS_PENDING,
+                'extra' => $extra,
+            ]);
+        }
+
+        return $order;
     }
 }
