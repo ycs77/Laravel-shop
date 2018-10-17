@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use App\Models\OrderItem;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 class Order extends Model
 {
@@ -106,5 +107,14 @@ class Order extends Model
     public function getRefundStatusColorAttribute()
     {
         return static::$refundStatusMap[$this->refund_status];
+    }
+
+    public static function getAvailableRefundNo()
+    {
+        do {
+            $no = Uuid::uuid4()->getHex();
+        } while (self::where('refund_no', $no)->exists());
+
+        return $no;
     }
 }

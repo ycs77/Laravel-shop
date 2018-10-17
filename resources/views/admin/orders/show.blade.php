@@ -49,32 +49,34 @@
       </tr>
 
       @if($order->ship_status === \App\Models\Order::SHIP_STATUS_PENDING)
-      <tr>
-        <td colspan="4">
-          <form action="{{ route('admin.orders.ship', [$order]) }}" method="post" class="form-inline">
-            @csrf
-            <div class="form-group {{ $errors->has('express_company') ? 'has-error' : '' }}">
-              <label for="express_company" class="control-label">物流公司</label>
-              <input type="text" id="express_company" name="express_company" value="" class="form-control" placeholder="輸入物流公司">
-              @if($errors->has('express_company'))
-                @foreach($errors->get('express_company') as $msg)
-                  <span class="help-block">{{ $msg }}</span>
-                @endforeach
-              @endif
-            </div>
-            <div class="form-group {{ $errors->has('express_no') ? 'has-error' : '' }}">
-              <label for="express_no" class="control-label">物流單號</label>
-              <input type="text" id="express_no" name="express_no" value="" class="form-control" placeholder="輸入物流單號">
-              @if($errors->has('express_no'))
-                @foreach($errors->get('express_no') as $msg)
-                  <span class="help-block">{{ $msg }}</span>
-                @endforeach
-              @endif
-            </div>
-            <button type="submit" class="btn btn-success" id="ship-btn">發貨</button>
-          </form>
-        </td>
-      </tr>
+        @if($order->refund_status !== \App\Models\Order::REFUND_STATUS_SUCCESS)
+        <tr>
+          <td colspan="4">
+            <form action="{{ route('admin.orders.ship', [$order]) }}" method="post" class="form-inline">
+              @csrf
+              <div class="form-group {{ $errors->has('express_company') ? 'has-error' : '' }}">
+                <label for="express_company" class="control-label">物流公司</label>
+                <input type="text" id="express_company" name="express_company" value="" class="form-control" placeholder="輸入物流公司">
+                @if($errors->has('express_company'))
+                  @foreach($errors->get('express_company') as $msg)
+                    <span class="help-block">{{ $msg }}</span>
+                  @endforeach
+                @endif
+              </div>
+              <div class="form-group {{ $errors->has('express_no') ? 'has-error' : '' }}">
+                <label for="express_no" class="control-label">物流單號</label>
+                <input type="text" id="express_no" name="express_no" value="" class="form-control" placeholder="輸入物流單號">
+                @if($errors->has('express_no'))
+                  @foreach($errors->get('express_no') as $msg)
+                    <span class="help-block">{{ $msg }}</span>
+                  @endforeach
+                @endif
+              </div>
+              <button type="submit" class="btn btn-success" id="ship-btn">發貨</button>
+            </form>
+          </td>
+        </tr>
+        @endif
       @else
       <tr>
         <td>物流公司：</td>
@@ -103,14 +105,30 @@
 
 <script>
 $(function() {
+  $('#btn-refund-agree').click(function () {
+    swal({
+      title: '確認退款?',
+      icon: 'warning',
+      buttons: ['取消', '確定'],
+      dangerMode: true
+    }).then(function (willDelete) {
+      if (!willDelete) return
+      axios.post('{{ route('admin.orders.handle_refund', $order) }}', {
+        agree: true
+      }).then(function () {
+        swal('退款成功', '', 'success').then(function() {
+          location.reload()
+        })
+      })
+    })
+  })
+
   $('#btn-refund-disagree').click(function() {
     swal({
       title: '輸入拒絕退款裡由',
       content: 'input'
     }).then(function(input){
-      if (input === false) {
-        return
-      }
+      if (input === false) return
       if (!input) {
         swal('理由不能為空', '', 'error')
         return

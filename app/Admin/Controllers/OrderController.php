@@ -121,8 +121,22 @@ class OrderController extends Controller
         }
 
         if ($request->input('agree')) {
-            // 先留空
-            // todo
+            switch ($order->payment_method) {
+                case 'website':
+                    $refundNo = Order::getAvailableRefundNo();
+
+                    // 退款成功
+                    $order->update([
+                        'refund_no' => $refundNo,
+                        'refund_status' => Order::REFUND_STATUS_SUCCESS,
+                    ]);
+
+                    break;
+
+                default:
+                    throw new InternalException('未知訂單支付方式：' . $order->payment_method);
+                    break;
+            }
         } else {
             $extra = $order->extra ? : [];
             $extra['refund_disagree_reason'] = $request->input('reason');
