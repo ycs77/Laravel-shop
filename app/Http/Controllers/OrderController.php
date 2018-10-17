@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\OrderReviewed;
 use App\Exceptions\InvalidRequestException;
+use App\Http\Requests\ApplyRefundRequest;
 use App\Http\Requests\OrderRequest;
 use App\Http\Requests\SendReviewRequest;
 use App\Jobs\CloseOrder;
@@ -120,5 +121,27 @@ class OrderController extends Controller
         });
 
         return redirect()->back();
+    }
+    
+    public function applyRefund(Order $order, ApplyRefundRequest $request)
+    {
+        $this->authorize('own', $order);
+
+        if (!$order->paid_at) {
+            throw new InvalidRequestException('該訂單未支付，不可退款');
+        }
+        if ($order->refund_status !== Order::REFUND_STATUS_PENDING) {
+            throw new InvalidRequestException('該訂單已經申請過退款，請勿重複申請');
+        }
+        
+        $extra = $order->extra ? : [];
+        $extra['refund_reason'] = $request->input('reason');
+        
+        $order->update([
+            'refund_status' => Order::REFUND_STATUS_APPLIED,
+            'extra' => $extra,
+        ]);
+
+        return $order;
     }
 }

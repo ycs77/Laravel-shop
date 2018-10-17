@@ -55,6 +55,7 @@
           <div class="line-label">訂單編號：</div>
           <div class="line-value">{{ $order->no }}</div>
         </div>
+
         <div class="line">
           <div class="line-label">物流狀態：</div>
           <div class="line-value">{{ __("order.ship.{$order->ship_status}") }}</div>
@@ -65,8 +66,22 @@
           <div class="line-value">{{ $order->ship_data['express_company'] }} {{ $order->ship_data['express_no'] }}</div>
         </div>
         @endif
+
+        @if($order->paid_at && $order->refund_status !== \App\Models\Order::REFUND_STATUS_PENDING)
+        <div class="line">
+          <div class="line-label">退款狀態：</div>
+          <div class="line-value">{{ __("order.refund.{$order->refund_status}") }}</div>
+        </div>
+        <div class="line">
+          <div class="line-label">退款理由：</div>
+          <div class="line-value">{{ $order->extra['refund_reason'] }}</div>
+        </div>
+        @endif
+
       </div>
+
       <div class="col-sm text-right">
+
         <div class="total-amount">
           <span>訂單總價：</span>
           <div class="value pr-4">${{ $order->total_amount }}</div>
@@ -106,8 +121,39 @@
           </form>
         </div>
         @endif
+
+        @if($order->paid_at && $order->refund_status === \App\Models\Order::REFUND_STATUS_PENDING)
+        <div class="my-3 pr-4">
+          <button class="btn btn-sm btn-danger" id="btn-apply-refund">申請退款</button>
+        </div>
+        @endif
+
       </div>
     </div>
   @endcard
 
 @endsection
+
+@push('script')
+  <script>
+    $(function () {
+      $('#btn-apply-refund').click(function () {
+        swal({
+          text: '請輸入退款理由',
+          content: 'input'
+        }).then(function (input) {
+          if(!input) {
+            swal('退款理由不可空', '', 'error');
+            return;
+          }
+
+          axios.post('{{ route('orders.apply_refund', $order) }}', { reason: input }).then(function () {
+            swal('申請退款成功', '', 'success').then(function () {
+              location.reload();
+            });
+          })
+        })
+      })
+    })
+  </script>
+@endpush

@@ -24,6 +24,9 @@ Route::middleware('auth')->group(function () {
 
         // 付款
         Route::get('payment/{order}/website', 'PaymentController@payByWebsite')->name('payment.website');
+
+        // 退款
+        Route::post('orders/{order}/apply_refund', 'OrderController@applyRefund')->name('orders.apply_refund');
     });
 });
 
