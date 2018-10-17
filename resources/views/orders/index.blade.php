@@ -32,13 +32,13 @@
                   <tr>
                     <td class="product-info">
                       <div class="preview">
-                        <a target="_blank" href="{{ route('products.show', [$item->product_id]) }}">
+                        <a target="_blank" href="{{ route('products.show', [$item->product]) }}">
                           <img src="{{ $item->product->image_url }}">
                         </a>
                       </div>
                       <div>
                         <span class="product-title">
-                          <a target="_blank" href="{{ route('products.show', [$item->product_id]) }}">{{ $item->product->title }}</a>
+                          <a target="_blank" href="{{ route('products.show', [$item->product]) }}">{{ $item->product->title }}</a>
                         </span>
                         <span class="sku-title">{{ $item->productSku->title }}</span>
                       </div>
@@ -69,7 +69,18 @@
                       @endif
                     </td>
                     <td rowspan="{{ count($order->items) }}" class="text-center">
-                      <a class="btn btn-primary btn-sm" href="{{ route('orders.show', ['order' => $order->id]) }}">查看訂單</a>
+                      
+                      {{-- 訂單 --}}
+                      <a class="btn btn-primary btn-sm" href="{{ route('orders.show', $order) }}">
+                        查看訂單
+                      </a>
+
+                      {{-- 評價 --}}
+                      @if($order->paid_at)
+                      <a class="btn btn-success btn-sm" href="{{ route('orders.review.show', $order) }}">
+                        {{ $order->reviewed ? '查看評價' : '評價' }}
+                      </a>
+                      @endif
                     </td>
                     @endif
                   </tr>

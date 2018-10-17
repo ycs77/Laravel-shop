@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function () {
 
         // 訂單
         Route::post('orders/{order}/received', 'OrderController@received')->name('orders.received');
+        Route::get('orders/{order}/review', 'OrderController@review')->name('orders.review.show');
+        Route::post('orders/{order}/review', 'OrderController@sendReview')->name('orders.review.store');
         Route::resource('orders', 'OrderController')->only(['index', 'store', 'show']);
 
         // 付款

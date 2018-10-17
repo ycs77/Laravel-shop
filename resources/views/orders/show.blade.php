@@ -21,13 +21,13 @@
         <tr>
           <td class="product-info">
             <div class="preview">
-              <a target="_blank" href="{{ route('products.show', [$item->product_id]) }}">
+              <a target="_blank" href="{{ route('products.show', [$item->product]) }}">
                 <img src="{{ $item->product->image_url }}">
               </a>
             </div>
             <div>
               <span class="product-title">
-                <a target="_blank" href="{{ route('products.show', [$item->product_id]) }}">{{ $item->product->title }}</a>
+                <a target="_blank" href="{{ route('products.show', [$item->product]) }}">{{ $item->product->title }}</a>
               </span>
               <span class="sku-title">{{ $item->productSku->title }}</span>
             </div>

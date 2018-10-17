@@ -25,13 +25,13 @@
             </td>
             <td class="product_info">
               <div class="preview">
-                <a target="_blank" href="{{ route('products.show', [$item->productSku->product_id]) }}">
+                <a target="_blank" href="{{ route('products.show', [$item->productSku->product]) }}">
                   <img src="{{ $item->productSku->product->image_url }}">
                 </a>
               </div>
               <div @if(!$item->productSku->product->on_sale) class="not_on_sale" @endif>
                 <span class="product_title">
-                  <a target="_blank" href="{{ route('products.show', [$item->productSku->product_id]) }}">{{ $item->productSku->product->title }}</a>
+                  <a target="_blank" href="{{ route('products.show', [$item->productSku->product]) }}">{{ $item->productSku->product->title }}</a>
                 </span>
                 <span class="sku_title">{{ $item->productSku->title }}</span>
                 @if(!$item->productSku->product->on_sale)
