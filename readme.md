@@ -11,3 +11,48 @@
 ![Laravel shop 商城 首页](https://yangchenshin77.github.io/Laravel-shop/example-1.jpg)
 ![Laravel shop 商城 商品页](https://yangchenshin77.github.io/Laravel-shop/example-2.jpg)
 ![Laravel shop 商城 后台](https://yangchenshin77.github.io/Laravel-shop/example-3.jpg)
+
+## 安裝
+
+下載源碼：
+
+```
+git clone git@github.com:yangchenshin77/Laravel-shop.git
+```
+
+配置 homestead.yaml，加入對應修改
+
+```
+folders:
+    - map: ~/my-path/laravel-shop/ # 你本地的項目路徑
+      to: /home/vagrant/code/laravel-shop
+
+sites:
+    - map: laravel-shop.test
+      to: /home/vagrant/code/laravel-shop/public
+
+databases:
+    - laravel-shop
+```
+
+安裝擴展包依賴
+
+```
+composer install
+```
+
+## 配置 Supervisor
+
+安装 Supervisor (Homestead 默認已安裝，Linux 可用，Windows 使用 `php artisan queue:work redis`)
+
+```
+sudo apt-get install supervisor
+```
+
+開啟 laravel-shop-worker.conf，將 `/home/vagrant/code/laravel-shop/` 你替換成項目的路徑，`user=vagrant` 改成你的用戶名。
+
+執行
+
+```
+sudo cp laravel-shop-worker.conf /etc/supervisor/conf.d/laravel-shop-worker.conf
+```
