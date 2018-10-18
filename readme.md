@@ -41,9 +41,43 @@ databases:
 composer install
 ```
 
+生成金鑰
+
+```
+php artisan key:generate
+```
+
+資料庫遷移
+
+```
+php artisan migrate
+```
+
+生成上傳文件資料夾連結
+
+```
+php artisan storage:link
+```
+
+導入後台帳號資料 SQL
+
+```
+mysql laravel-shop < database/admin.sql
+```
+
+前端擴展包
+
+```
+npm install
+```
+或
+```
+yarn install
+```
+
 ## 配置 Supervisor
 
-安装 Supervisor (Homestead 默認已安裝，Linux 可用，Windows 使用 `php artisan queue:work redis`)
+安装 Supervisor (Homestead 默認已安裝，Linux 可用，Windows 不可用，需執行 `php artisan queue:work redis`)
 
 ```
 sudo apt-get install supervisor
