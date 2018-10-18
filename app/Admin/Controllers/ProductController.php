@@ -147,7 +147,7 @@ class ProductController extends Controller
         $form->hasMany('skus', 'SKU 列表', function (Form\NestedForm $form) {
             $form->text('title', 'SKU 名稱')->rules('required');
             $form->text('description', 'SKU 介紹')->rules('required');
-            $form->text('price', '單價')->rules('required|numeric|min:0.01');
+            $form->text('price', '單價')->rules('required|numeric|min:1');
             $form->text('stock', '剩餘庫存')->rules('required|integer|min:0');
         });
 
