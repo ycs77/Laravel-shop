@@ -32,6 +32,11 @@ footer {
 nav.navbar {
   padding-top: 12px;
   padding-bottom: 12px;
+
+  .nav-link {
+    height: 30px + 8px * 2;
+    line-height: 28px;
+  }
 }
 
 .user-avatar {
