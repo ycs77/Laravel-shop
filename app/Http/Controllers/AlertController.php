@@ -11,17 +11,17 @@ class AlertController extends Controller
         return [
             [
                 'name' => 'successPasswordReset',
-                'route' => 'root',
+                'route' => 'products.index',
                 'message' => __('Successful password reset'),
             ],
             [
                 'name' => 'sendVerifyMail',
-                'route' => 'root',
+                'route' => 'products.index',
                 'message' => __('A fresh verification link has been sent to your email address.'),
             ],
             [
                 'name' => 'successVerify',
-                'route' => 'root',
+                'route' => 'products.index',
                 'message' => __('Successful verification'),
             ],
         ];
@@ -39,7 +39,7 @@ class AlertController extends Controller
     {
         $messages = $this->messages();
         $message = array_filter($messages, function ($v) use ($route, $name) {
-            return $v['route'] == $route && $v['name'] == $name;
+            return $v['route'] == str_replace('-', '.', $route) && $v['name'] == $name;
         });
         $message = array_divide($message)[1];
         if (isset($message[0])) {

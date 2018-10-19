@@ -23,12 +23,9 @@ class VerificationController extends Controller
     /**
      * Where to redirect users after verification.
      *
-     * @return string
+     * @var string
      */
-    protected function redirectTo()
-    {
-        return route('root');
-    }
+    protected $redirectTo = '/alert/products-index/successVerify';
 
     /**
      * Create a new controller instance.

@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/alert/root/sendVerifyMail';
+    protected $redirectTo = '/alert/products-index/sendVerifyMail';
 
     /**
      * Create a new controller instance.

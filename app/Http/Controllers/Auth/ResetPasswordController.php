@@ -25,7 +25,7 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/alert/root/successPasswordReset';
+    protected $redirectTo = '/alert/products-index/successPasswordReset';
 
     /**
      * Create a new controller instance.
