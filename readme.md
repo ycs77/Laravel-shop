@@ -89,4 +89,13 @@ sudo apt-get install supervisor
 
 ```
 sudo cp laravel-shop-worker.conf /etc/supervisor/conf.d/laravel-shop-worker.conf
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start laravel-shop-worker:*
+```
+
+停止
+
+```
+sudo supervisorctl stop laravel-shop-worker:*
 ```
