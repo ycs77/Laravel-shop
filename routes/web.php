@@ -1,5 +1,7 @@
 <?php
 
+Route::redirect('/', 'products')->name('root');
+
 Auth::routes(['verify' => true]);
 
 Route::middleware('auth')->group(function () {
@@ -30,7 +32,6 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-Route::redirect('/', 'products')->name('root');
 Route::resource('products', 'ProductController')->only(['index', 'show']);
 
 Route::get('alert/{route}/{message}', 'AlertController@handle');

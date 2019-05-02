@@ -32,7 +32,7 @@
         </search-bar>
       </div>
     </div>
-    
+
     {{-- 商品列表 --}}
     <div class="row products-list">
       @foreach($products as $product)
@@ -59,7 +59,13 @@
         </div>
       @endforeach
     </div>
-    
+
+    @if (!count($products))
+      <div class="text-center text-muted">
+        目前尚未上架商品
+      </div>
+    @endif
+
     <div class="my-3">{{ $products->appends($filters)->links() }}</div>
   @endcard
 

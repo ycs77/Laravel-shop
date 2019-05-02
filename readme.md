@@ -3,10 +3,15 @@
 用 PHP 框架 Laravel 5.7 開發的簡易商城，前端介面採用 Bootstrap 4。
 
 功能包含：
-用戶登入、瀏覽商品、將商品加入購物車、結帳、評分、退款、(未加入優惠卷)
+用戶登入、瀏覽商品、將商品加入購物車、結帳、評分、付款(沒有實作，直接跳過)、退款(沒有實作，直接跳過)、(未加入優惠卷)
 後台用戶管理、商品管理、商品管理、訂單管理。
 
-前台帳號均由亂數產生。後台帳號：admin/密碼：secret。
+前台帳號均由亂數產生。
+
+管理後台：
+* 網址：http://laravel-shop.test/ls-admin
+* 帳號：admin
+* 密碼：secret
 
 ![Laravel shop 商城 首页](https://ycs77.github.io/Laravel-shop/example-1.jpg)
 ![Laravel shop 商城 商品页](https://ycs77.github.io/Laravel-shop/example-2.jpg)
@@ -30,6 +35,7 @@ folders:
 sites:
     - map: laravel-shop.test
       to: /home/vagrant/code/laravel-shop/public
+      php: "7.2"
 
 databases:
     - laravel-shop
@@ -41,7 +47,7 @@ databases:
 composer install
 ```
 
-複製 `.env` 檔 (設定環境變數、DB帳密等)
+複製 `.env` 檔 (需設定APP_URL、DB帳密)
 
 ```
 cp .env.example .env
@@ -71,14 +77,22 @@ php artisan storage:link
 mysql laravel-shop < database/admin.sql
 ```
 
-前端擴展包
+產生測試資料
+
+```
+php artisan db:seed
+```
+
+前端(CSS & JS)套件
 
 ```
 npm install
+npm run dev
 ```
 或
 ```
 yarn install
+yarn dev
 ```
 
 ## 配置 Supervisor
