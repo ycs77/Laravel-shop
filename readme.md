@@ -17,14 +17,14 @@
 下載源碼：
 
 ```
-git clone git@github.com:yangchenshin77/Laravel-shop.git
+git clone git@github.com:ycs77/Laravel-shop.git
 ```
 
 配置 homestead.yaml，加入對應修改
 
 ```
 folders:
-    - map: ~/my-path/laravel-shop/ # 你本地的項目路徑
+    - map: ~/my-path/laravel-shop # 你本地的項目路徑
       to: /home/vagrant/code/laravel-shop
 
 sites:
