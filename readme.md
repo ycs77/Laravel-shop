@@ -41,6 +41,12 @@ databases:
 composer install
 ```
 
+複製 `.env` 檔 (設定環境變數、DB帳密等)
+
+```
+cp .env.example .env
+```
+
 生成金鑰
 
 ```
