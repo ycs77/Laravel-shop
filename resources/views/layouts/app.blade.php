@@ -9,7 +9,7 @@
     <title>@yield('title', config('app.name')) - Laravel 商城</title>
 
     {{-- 樣式 --}}
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
     @stack('style')
   </head>
   <body>
@@ -26,7 +26,7 @@
     </div>
 
     {{-- JS腳本 --}}
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ asset(mix('js/app.js')) }}"></script>
     @stack('script')
 
     @include('layouts._alerts')
