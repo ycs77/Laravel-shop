@@ -71,7 +71,7 @@ php artisan migrate
 php artisan storage:link
 ```
 
-導入後台帳號資料 SQL
+導入後台帳號資料 SQL (或者使用 phpMyAdmin 匯入)
 
 ```
 mysql laravel-shop < database/admin.sql
