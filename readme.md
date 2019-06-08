@@ -13,9 +13,9 @@
 * 帳號：admin
 * 密碼：secret
 
-![Laravel shop 商城 首页](https://ycs77.github.io/Laravel-shop/example-1.jpg)
-![Laravel shop 商城 商品页](https://ycs77.github.io/Laravel-shop/example-2.jpg)
-![Laravel shop 商城 后台](https://ycs77.github.io/Laravel-shop/example-3.jpg)
+![Laravel shop 商城 首页](/docs/example-1.jpg)
+![Laravel shop 商城 商品页](/docs/example-2.jpg)
+![Laravel shop 商城 后台](/docs/example-3.jpg)
 
 ## 安裝
 
