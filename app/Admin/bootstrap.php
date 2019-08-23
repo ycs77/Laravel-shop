@@ -19,5 +19,3 @@
  */
 
 Encore\Admin\Form::forget(['map']);
-
-Admin::js(asset('js/admin.js'));

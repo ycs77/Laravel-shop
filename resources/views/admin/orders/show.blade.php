@@ -107,41 +107,75 @@
 $(function() {
   $('#btn-refund-agree').click(function () {
     swal({
-      title: '確認退款?',
-      icon: 'warning',
-      buttons: ['取消', '確定'],
-      dangerMode: true
-    }).then(function (willDelete) {
-      if (!willDelete) return
-      axios.post('{{ route('admin.orders.handle_refund', $order) }}', {
-        agree: true
+      title: '確定要將款項退還給用戶?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '確定',
+      cancelButtonText: '取消',
+      showLoaderOnConfirm: true,
+      preConfirm: function () {
+        return $.ajax({
+          url: '{{ route('admin.orders.handle_refund', $order) }}',
+          type: 'POST',
+          data: JSON.stringify({
+            agree: true,
+            _token: LA.token
+          }),
+          contentType: 'application/json'
+        });
+      }
+    }).then(function (ret) {
+      if (ret.dismiss === 'cancel') {
+        return;
+      }
+      swal({
+        title: '操作成功',
+        type: 'success'
       }).then(function () {
-        swal('退款成功', '', 'success').then(function() {
-          location.reload()
-        })
-      })
-    })
+        location.reload();
+      });
+    });
   })
 
-  $('#btn-refund-disagree').click(function() {
+  $('#btn-refund-disagree').click(function () {
     swal({
       title: '輸入拒絕退款裡由',
-      content: 'input'
-    }).then(function(input){
-      if (input === false) return
-      if (!input) {
-        swal('理由不能為空', '', 'error')
-        return
+      input: 'text',
+      showCancelButton: true,
+      confirmButtonText: '確定',
+      cancelButtonText: '取消',
+      showLoaderOnConfirm: true,
+      preConfirm: function (input) {
+        if (!input) {
+          swal('理由不能為空', '', 'error')
+          return false;
+        }
+
+        return $.ajax({
+          url: '{{ route('admin.orders.handle_refund', $order) }}',
+          type: 'POST',
+          data: JSON.stringify({
+            agree: false,
+            reason: inputValue,
+            _token: LA.token
+          }),
+          contentType: 'application/json'
+        });
+      },
+      allowOutsideClick: function () {
+        return !swal.isLoading();
       }
-      axios.post('{{ route('admin.orders.handle_refund', $order) }}', {
-        agree: false,
-        reason: input
+    }).then(function (ret) {
+      if (ret.dismiss === 'cancel') {
+        return;
+      }
+      swal({
+        title: '操作成功',
+        type: 'success'
       }).then(function () {
-        swal('操作成功', '', 'success').then(function() {
-          location.reload()
-        })
-      })
-    })
+        location.reload();
+      });
+    });
   })
 })
 </script>
