@@ -24,7 +24,6 @@ class ProductSku extends Model
     protected $casts = [
         'price' => 'integer',
         'stock' => 'integer',
-        'attr_items_index' => 'array',
     ];
 
     /**
@@ -35,7 +34,8 @@ class ProductSku extends Model
     public function getAttrsAttribute()
     {
         $attrs = $this->product->attrs;
-        return collect($this->attr_items_index)->mapWithKeys(function ($item_index, $index) use ($attrs) {
+        $attr_items_index = json_decode($this->attr_items_index, true);
+        return collect($attr_items_index)->mapWithKeys(function ($item_index, $index) use ($attrs) {
             $attr = $attrs->get($index);
             return [$attr->name => $attr->items[$item_index]];
         });

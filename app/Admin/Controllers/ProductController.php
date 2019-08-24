@@ -220,6 +220,8 @@ class ProductController extends Controller
     protected function save(Request $request, $id = null)
     {
         $data = $request->only(['title', 'image', 'description', 'on_sale', 'price']);
+        $attrs = collect($request->input('attrs'));
+        $skus = collect($request->input('skus'));
 
         if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
             $imagePath = $data['image']->store(
@@ -232,32 +234,45 @@ class ProductController extends Controller
         $data['on_sale'] = is_string($data['on_sale']) ? $data['on_sale'] === 'on' : $data['on_sale'];
 
         // Update or create porduct
+        /** @var \App\Models\Product $product */
         $product = Product::updateOrCreate(['id' => $id], $data);
 
         // Clear old product attributes
         $product->attrs->map->delete();
 
         // Create new product attributes
-        $attrs = collect($request->input('attrs'));
         $attrs->each(function ($attr) use ($product) {
             $product->attrs()->create($attr);
         });
 
-        // Clear old product skus
-        $product->skus->map->delete();
+        // Remove deleted input skus
+        $originalAttrItemsIndex = $product->skus->map->attr_items_index;
+        $skusAttrItemsIndex = $skus->map(function ($sku) {
+            return $sku['attr_items_index'];
+        });
+        $diffSkuAttrItemsIndex = $originalAttrItemsIndex->diff($skusAttrItemsIndex);
+        $product->skus()->whereIn('attr_items_index', $diffSkuAttrItemsIndex)->delete();
+
+        $product->refresh();
+        $originalAttrItemsIndex = $product->skus->map->attr_items_index;
+
+        // Update product skus
+        $updateSkus = $skus->whereIn('attr_items_index', $originalAttrItemsIndex);
+        $updateSkus->each(function ($sku) use ($product) {
+            $product->skus()->where('attr_items_index', $sku['attr_items_index'])->update($sku);
+        });
 
         // Create new product skus
-        $skus = collect($request->input('skus'));
-        $skus->each(function ($sku) use ($product) {
-            if (is_string($sku['attr_items_index'])) {
-                $sku['attr_items_index'] = json_decode($sku['attr_items_index'], true);
-            }
+        $diffSkuAttrItemsIndex = $skusAttrItemsIndex->diff($originalAttrItemsIndex);
+        $newSkus = $skus->whereIn('attr_items_index', $diffSkuAttrItemsIndex);
+        $newSkus->each(function ($sku) use ($product) {
             $product->skus()->create($sku);
         });
 
         // Update product price
-        if ($min = $skus->min('price')) {
-            $product->update(['price' => $min]);
+        $minPrice = $skus->min('price');
+        if (!is_null($minPrice)) {
+            $product->update(['price' => $minPrice]);
         }
 
         return $product;

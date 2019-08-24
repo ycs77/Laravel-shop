@@ -70,7 +70,7 @@ class ProductController extends Controller
                 'id' => $sku->id,
                 'price' => $sku->price,
                 'stock' => $sku->stock,
-                'attr_items_index' => $sku->attr_items_index,
+                'attr_items_index' => json_decode($sku->attr_items_index, true),
             ];
         });
 
