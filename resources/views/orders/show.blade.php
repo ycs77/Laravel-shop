@@ -6,7 +6,7 @@
 
   @card(['body' => false])
     @slot('header', '訂單詳情')
-    
+
     <table class="table mb-0">
       <thead>
         <tr class="text-center">
@@ -26,10 +26,14 @@
               </a>
             </div>
             <div>
-              <span class="product-title">
+              <div class="product-title">
                 <a target="_blank" href="{{ route('products.show', [$item->product]) }}">{{ $item->product->title }}</a>
-              </span>
-              <span class="sku-title">{{ $item->productSku->title }}</span>
+              </div>
+              <small class="sku-title">
+                @foreach ($item->productSku->attrs as $attr_name => $attr_item)
+                  <span class="mr-2"><b>{{ $attr_name }}: </b>{{ $attr_item }}</span>
+                @endforeach
+              </small>
             </div>
           </td>
           <td class="sku-price text-center align-middle">${{ $item->price }}</td>
@@ -131,7 +135,13 @@
 
         @if($order->paid_at && $order->refund_status === \App\Models\Order::REFUND_STATUS_PENDING)
         <div class="my-3 pr-4">
-          <button class="btn btn-sm btn-danger" id="btn-apply-refund">申請退款</button>
+          @if ($order->refund_status === \App\Models\Order::REFUND_STATUS_PENDING)
+          <button class="btn btn-sm btn-danger mr-1" id="btn-apply-refund">申請退款</button>
+          @endif
+
+          <a class="btn btn-success btn-sm" href="{{ route('orders.review.show', $order) }}">
+            {{ $order->reviewed ? '查看評價' : '評價' }}
+          </a>
         </div>
         @endif
 

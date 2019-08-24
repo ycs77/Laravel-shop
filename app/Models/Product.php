@@ -3,32 +3,62 @@
 namespace App\Models;
 
 use App\Models\ProductSku;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'title', 'description', 'image', 'on_sale',
-        'rating', 'sold_count', 'review_count', 'price'
+        'rating', 'sold_count', 'review_count', 'price',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'on_sale' => 'boolean',
     ];
 
+    /**
+     * Get the product attributes.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attrs()
+    {
+        return $this->hasMany(ProductSkuAttribute::class);
+    }
+
+    /**
+     * Gte the product skus.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function skus()
     {
         return $this->hasMany(ProductSku::class);
     }
 
+    /**
+     * Get attribute image_url
+     *
+     * @return string
+     */
     public function getImageUrlAttribute()
     {
         // 如果 image 字段本身就已經是完整的 url 就直接返回
-        if (Str::startsWith($this->attributes['image'], ['http://', 'https://'])) {
+        if (url()->isValidUrl($this->attributes['image'])) {
             return $this->attributes['image'];
         }
+
         return Storage::disk('public')->url($this->attributes['image']);
     }
 }

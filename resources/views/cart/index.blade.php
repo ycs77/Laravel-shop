@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody class="product_list">
-        @foreach ($cartItems as $item)
+        @forelse ($cartItems as $item)
           <tr data-id="{{ $item->productSku->id }}">
             <td>
               <input type="checkbox" name="select" value="{{ $item->productSku->id }}" {{ $item->productSku->product->on_sale ? 'checked' : 'disabled' }}>
@@ -33,7 +33,11 @@
                 <span class="product_title">
                   <a target="_blank" href="{{ route('products.show', [$item->productSku->product]) }}">{{ $item->productSku->product->title }}</a>
                 </span>
-                <span class="sku_title">{{ $item->productSku->title }}</span>
+                <span class="sku_title">
+                  @foreach ($item->productSku->attrs as $attr_name => $attr_item)
+                    <span class="mr-2"><b>{{ $attr_name }}: </b>{{ $attr_item }}</span>
+                  @endforeach
+                </span>
                 @if(!$item->productSku->product->on_sale)
                   <span class="warning">該商品已下架</span>
                 @endif
@@ -47,7 +51,14 @@
               <button class="btn btn-sm btn-danger btn-remove">移除</button>
             </td>
           </tr>
-        @endforeach
+        @empty
+          <tr>
+            <td class="text-center text-muted" colspan="5">
+              現在購物車中沒有任何商品，馬上去購物吧！
+              <a href="{{ route('products.index') }}" class="btn btn-outline-primary">商品區</a>
+            </td>
+          </tr>
+        @endforelse
       </tbody>
     </table>
 

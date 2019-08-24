@@ -134,6 +134,7 @@
       label {
         border-radius: 0 !important;
         margin: 1px 5px;
+        cursor: pointer;
       }
     }
   }
@@ -188,9 +189,12 @@
       .product_title, .sku_title, .warning {
         display: block;
       }
-      .product_title a {
-        color: $gray-800;
-        font-size: 14px;
+      .product_title {
+        margin-bottom: 0.25rem;
+        a {
+          color: $gray-800;
+          font-size: 14px;
+        }
       }
       .not_on_sale {
         .product_title, .sku_title {

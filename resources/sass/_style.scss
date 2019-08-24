@@ -28,6 +28,12 @@ footer {
   }
 }
 
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+
 // 頂部導覽列
 nav.navbar {
   padding-top: 12px;
@@ -37,13 +43,12 @@ nav.navbar {
     height: 30px + 8px * 2;
     line-height: 28px;
   }
-}
 
-.user-avatar {
-  width: 30px;
-  height: 30px;
-  margin-right: 4px;
-  border-radius: 100%;
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+    margin-right: 4px;
+  }
 }
 
 img {

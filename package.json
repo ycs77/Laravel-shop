@@ -16,14 +16,14 @@
         "lodash": "^4.17.13",
         "popper.js": "^1.15",
         "sweetalert": "^2.1.2",
-        "vue": "^2.6.10"
+        "vue": "^2.6.10",
+        "vue-template-compiler": "^2.6.10"
     },
     "devDependencies": {
         "cross-env": "^5.2",
         "laravel-mix": "^4.0",
         "resolve-url-loader": "3.1.0",
         "sass": "^1.21.0",
-        "sass-loader": "7.*",
-        "vue-template-compiler": "^2.6.10"
+        "sass-loader": "7.*"
     }
 }

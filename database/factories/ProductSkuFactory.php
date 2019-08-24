@@ -8,5 +8,6 @@ $factory->define(App\Models\ProductSku::class, function (Faker $faker) {
         'description' => $faker->sentence,
         'price'       => $faker->randomNumber(4),
         'stock'       => $faker->randomNumber(5),
+        'attr_items_index' => [],
     ];
 });

@@ -65,6 +65,15 @@ class ProductController extends Controller
             throw new InvalidRequestException('商品未上架');
         }
 
+        $skus = $product->skus->map(function ($sku) {
+            return [
+                'id' => $sku->id,
+                'price' => $sku->price,
+                'stock' => $sku->stock,
+                'attr_items_index' => $sku->attr_items_index,
+            ];
+        });
+
         $favored = false;
 
         if ($user = $request->user()) {
@@ -80,6 +89,7 @@ class ProductController extends Controller
 
         return view('products.show', [
             'product' => $product,
+            'skus' => $skus,
             'favored' => $favored,
             'reviews' => $reviews,
         ]);
