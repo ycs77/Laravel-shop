@@ -14,6 +14,6 @@ $factory->define(App\Models\ProductSkuAttribute::class, function (Faker $faker) 
 
     return [
         'name' => $attr_name,
-        'values' => $attrs_data[$attr_name],
+        'items' => $attrs_data[$attr_name],
     ];
 });
