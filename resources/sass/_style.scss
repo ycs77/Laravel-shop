@@ -36,18 +36,17 @@ footer {
 
 // 頂部導覽列
 nav.navbar {
-  padding-top: 12px;
-  padding-bottom: 12px;
-
-  .nav-link {
-    height: 30px + 8px * 2;
-    line-height: 28px;
+  a#navbarDropdown {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    display: flex;
+    align-items: center;
   }
 
   .user-avatar {
-    width: 30px;
-    height: 30px;
-    margin-right: 4px;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 0.375rem;
   }
 }
 
