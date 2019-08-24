@@ -42,6 +42,18 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        redirectTo()->setIntendedUrl();
+
+        return view('auth.register');
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -82,6 +94,6 @@ class RegisterController extends Controller
     {
         flash(__('A fresh verification link has been sent to your email address.'))->info()->important();
 
-        return redirect($this->redirectPath());
+        return redirect()->intended($this->redirectTo);
     }
 }
