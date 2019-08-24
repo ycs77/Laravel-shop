@@ -7,21 +7,17 @@ use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\ApplyRefundRequest;
 use App\Http\Requests\OrderRequest;
 use App\Http\Requests\SendReviewRequest;
-use App\Jobs\CloseOrder;
 use App\Models\Order;
-use App\Models\ProductSku;
 use App\Models\UserAddress;
 use App\Services\OrderService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -31,14 +27,14 @@ class OrderController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate();
 
-        return view('orders.index', ['orders' => $orders]);
+        return view('orders.index', compact('orders'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\OrderRequest $request
-     * @param  \App\Services\OrderService $orderService
+     * @param  \App\Http\Requests\OrderRequest  $request
+     * @param  \App\Services\OrderService  $orderService
      * @return \Illuminate\Http\Response
      */
     public function store(OrderRequest $request, OrderService $orderService)
@@ -52,24 +48,25 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Order $order
+     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Order $order)
+    public function show(Order $order)
     {
         $this->authorize('own', $order);
-        return view('orders.show', ['order' => $order->load(['items.productSku', 'items.product'])]);
+
+        $order->load(['items.productSku', 'items.product']);
+
+        return view('orders.show', compact('order'));
     }
 
     /**
-     * 收貨
+     * Check received.
      *
-     * @param Request $request
-     * @param Order $order
-     * @return void
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Http\Response
      */
-    public function received(Request $request, Order $order)
+    public function received(Order $order)
     {
         $this->authorize('own', $order);
 
@@ -82,6 +79,12 @@ class OrderController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Show review order form.
+     *
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Http\Response
+     */
     public function review(Order $order)
     {
         $this->authorize('own', $order);
@@ -93,6 +96,13 @@ class OrderController extends Controller
         return view('orders.review', ['order' => $order->load(['items.productSku', 'items.product'])]);
     }
 
+    /**
+     * Send review.
+     *
+     * @param  \App\Models\Order  $order
+     * @param  \App\Http\Requests\SendReviewRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function sendReview(Order $order, SendReviewRequest $request)
     {
         $this->authorize('own', $order);
@@ -111,7 +121,7 @@ class OrderController extends Controller
                 $orderItem->update([
                     'rating' => $review['rating'],
                     'review' => $review['review'],
-                    'reviewed_at' => Carbon::now(),
+                    'reviewed_at' => now(),
                 ]);
             }
 
@@ -122,7 +132,14 @@ class OrderController extends Controller
 
         return redirect()->back();
     }
-    
+
+    /**
+     * Apply refund.
+     *
+     * @param  \App\Models\Order  $order
+     * @param  \App\Http\Requests\ApplyRefundRequest  $request
+     * @return \App\Models\Order
+     */
     public function applyRefund(Order $order, ApplyRefundRequest $request)
     {
         $this->authorize('own', $order);
@@ -133,10 +150,10 @@ class OrderController extends Controller
         if ($order->refund_status !== Order::REFUND_STATUS_PENDING) {
             throw new InvalidRequestException('該訂單已經申請過退款，請勿重複申請');
         }
-        
+
         $extra = $order->extra ? : [];
         $extra['refund_reason'] = $request->input('reason');
-        
+
         $order->update([
             'refund_status' => Order::REFUND_STATUS_APPLIED,
             'extra' => $extra,

@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserAddress extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'city',
         'district',
@@ -16,15 +21,22 @@ class UserAddress extends Model
         'last_used_at',
     ];
 
-    protected $dates = ['last_used_at'];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'last_used_at',
+    ];
 
     public function getFullAddressAttribute()
     {
         return "{$this->zip_code} {$this->city}{$this->district}{$this->address}";
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

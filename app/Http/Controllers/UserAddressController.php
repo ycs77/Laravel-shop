@@ -8,6 +8,11 @@ use App\Http\Requests\UserAddressRequest;
 
 class UserAddressController extends Controller
 {
+    /**
+     * The user address fields.
+     *
+     * @var array
+     */
     private $field = [
         'city',
         'district',
@@ -20,14 +25,14 @@ class UserAddressController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        return view('user_addresses.index', [
-            'addresses' => $request->user()->addresses,
-        ]);
+        $user_address = $request->user()->addresses;
+
+        return view('user_addresses.index', compact('user_address'));
     }
 
     /**
@@ -37,13 +42,15 @@ class UserAddressController extends Controller
      */
     public function create()
     {
-        return view('user_addresses.create_and_edit', ['address' => new UserAddress()]);
+        $user_address = UserAddress::make();
+
+        return view('user_addresses.create_and_edit', compact('user_address'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\UserAddressRequest  $request
+     * @param  \App\Http\Requests\UserAddressRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(UserAddressRequest $request)
@@ -58,21 +65,21 @@ class UserAddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param UserAddress $user_address
+     * @param  \App\Models\UserAddress  $user_address
      * @return \Illuminate\Http\Response
      */
     public function edit(UserAddress $user_address)
     {
         $this->authorize('own', $user_address);
 
-        return view('user_addresses.create_and_edit', ['address' => $user_address]);
+        return view('user_addresses.create_and_edit', compact('user_address'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  App\Http\Requests\UserAddressRequest  $request
-     * @param UserAddress $user_address
+     * @param  \App\Models\UserAddress  $user_address
      * @return \Illuminate\Http\Response
      */
     public function update(UserAddressRequest $request, UserAddress $user_address)
@@ -89,7 +96,7 @@ class UserAddressController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param UserAddress $user_address
+     * @param  \App\Models\UserAddress  $user_address
      * @return \Illuminate\Http\Response
      */
     public function destroy(UserAddress $user_address)

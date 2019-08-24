@@ -28,26 +28,6 @@ class Product extends Model
     ];
 
     /**
-     * Get the product attributes.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function attrs()
-    {
-        return $this->hasMany(ProductSkuAttribute::class);
-    }
-
-    /**
-     * Gte the product skus.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function skus()
-    {
-        return $this->hasMany(ProductSku::class);
-    }
-
-    /**
      * Get attribute image_url
      *
      * @return string
@@ -60,5 +40,15 @@ class Product extends Model
         }
 
         return Storage::disk('public')->url($this->attributes['image']);
+    }
+
+    public function attrs()
+    {
+        return $this->hasMany(ProductSkuAttribute::class);
+    }
+
+    public function skus()
+    {
+        return $this->hasMany(ProductSku::class);
     }
 }

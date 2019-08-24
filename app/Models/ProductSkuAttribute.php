@@ -24,11 +24,6 @@ class ProductSkuAttribute extends Model
         'items' => 'array',
     ];
 
-    /**
-     * Get the attribute's product.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function product()
     {
         return $this->belongsTo(Product::class);
