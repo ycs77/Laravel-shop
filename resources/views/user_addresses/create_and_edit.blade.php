@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', __('user_address.' . (!$address->id ? 'create' : 'edit')))
+@section('title', __('user_address.' . (!$user_address->id ? 'create' : 'edit')))
 
 @section('content')
 
   @card
-    @slot('header', __('user_address.' . (!$address->id ? 'create' : 'edit')))
+    @slot('header', __('user_address.' . (!$user_address->id ? 'create' : 'edit')))
 
       {{-- 錯誤訊息開始 --}}
       @if (count($errors))
@@ -15,14 +15,14 @@
       @endif
       {{-- 錯誤訊息結束 --}}
 
-      <user-addresses-create-and-edit init-address="{{ old('address', $address->address) }}" inline-template>
-        <form action="{{ !$address->id ? route('user_addresses.store') : route('user_addresses.update', ['user_address' => $address->id]) }}" method="post">
-          @if ($address->id)
+      <user-addresses-create-and-edit init-address="{{ old('address', $user_address->address) }}" inline-template>
+        <form action="{{ !$user_address->id ? route('user_addresses.store') : route('user_addresses.update', ['user_address' => $user_address->id]) }}" method="post">
+          @if ($user_address->id)
             @method('PUT')
           @endif
           @csrf
 
-          <select-district @change="onDistrictChanged" :init-value="['{{ old('city', $address->city) }}', '{{ old('district', $address->district) }}']" inline-template>
+          <select-district @change="onDistrictChanged" :init-value="['{{ old('city', $user_address->city) }}', '{{ old('district', $user_address->district) }}']" inline-template>
             <div class="form-row">
               <div class="form-group col-6">
                 <label>縣市</label>
@@ -57,12 +57,12 @@
 
           <div class="form-group">
             <label>@lang('validation.attributes.contact_name')</label>
-            <input type="text" class="form-control" name="contact_name" value="{{ old('contact_name', $address->contact_name) }}">
+            <input type="text" class="form-control" name="contact_name" value="{{ old('contact_name', $user_address->contact_name) }}">
           </div>
 
           <div class="form-group">
             <label>@lang('validation.attributes.contact_phone')</label>
-            <input type="text" class="form-control" name="contact_phone" value="{{ old('contact_phone', $address->contact_phone) }}">
+            <input type="text" class="form-control" name="contact_phone" value="{{ old('contact_phone', $user_address->contact_phone) }}">
           </div>
 
           <div class="form-group text-center">

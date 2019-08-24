@@ -12,7 +12,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -54,8 +54,8 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Request $request
-     * @param Product $product
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Product $product)
@@ -87,56 +87,53 @@ class ProductController extends Controller
             ->limit(10)
             ->get();
 
-        return view('products.show', [
-            'product' => $product,
-            'skus' => $skus,
-            'favored' => $favored,
-            'reviews' => $reviews,
-        ]);
+        return view('products.show', compact('product', 'skus', 'favored', 'reviews'));
     }
 
     /**
-     * 將商品加入收藏
+     * Show the favor list.
      *
-     * @param Request $request
-     * @param Product $product
-     * @return void
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function favorites(Request $request)
+    {
+        $products = $request->user()->favoriteProducts()->paginate(16);
+
+        return view('products.favorites', compact('products'));
+    }
+
+    /**
+     * Add products to user's favor.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @return array
      */
     public function favor(Request $request, Product $product)
     {
         $user = $request->user();
 
-        if ($user->favoriteProducts()->find($product->id)) {
-            return [];
+        if (!$user->favoriteProducts()->find($product->id)) {
+            $user->favoriteProducts()->attach($product);
         }
 
-        $user->favoriteProducts()->attach($product);
         return [];
     }
 
     /**
-     * 取消商品收藏
+     * Cancel products to user's favor.
      *
-     * @param Request $request
-     * @param Product $product
-     * @return void
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @return array
      */
     public function disfavor(Request $request, Product $product)
     {
         $user = $request->user();
-        $user->favoriteProducts()->detach($product);
-        return [];
-    }
 
-    /**
-     * 收藏商品列表
-     *
-     * @param Request $request
-     * @return void
-     */
-    public function favorites(Request $request)
-    {
-        $products = $request->user()->favoriteProducts()->paginate(16);
-        return view('products.favorites', ['products' => $products]);
+        $user->favoriteProducts()->detach($product);
+
+        return [];
     }
 }

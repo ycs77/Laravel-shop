@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Order;
 use App\Jobs\CloseOrder;
@@ -13,21 +12,30 @@ use App\Exceptions\InvalidRequestException;
 
 class OrderService
 {
+    /**
+     * Store order.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\UserAddress  $address
+     * @param  string  $remark
+     * @param  array  $items
+     * @return \App\Models\Order
+     */
     public function store(User $user, UserAddress $address, $remark, $items)
     {
         // 開啟一個資料庫事務
         $order = \DB::transaction(function () use ($user, $address, $remark, $items) {
             // 更新此地址的最後使用時間
-            $address->update(['last_used_at' => Carbon::now()]);
+            $address->update(['last_used_at' => now()]);
             // 創建一個訂單
-            $order   = new Order([
-                'address'      => [ // 將地址信息放入訂單中
-                    'address'       => $address->full_address,
-                    'zip_code'      => $address->zip_code,
-                    'contact_name'  => $address->contact_name,
+            $order = new Order([
+                'address' => [ // 將地址信息放入訂單中
+                    'address' => $address->full_address,
+                    'zip_code' => $address->zip_code,
+                    'contact_name' => $address->contact_name,
                     'contact_phone' => $address->contact_phone,
                 ],
-                'remark'       => $remark,
+                'remark' => $remark,
                 'total_amount' => 0,
             ]);
             // 訂單關聯到當前用戶

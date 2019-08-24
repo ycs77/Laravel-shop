@@ -29,16 +29,21 @@ class User extends Authenticatable implements MustVerifyEmailContract
         'password', 'remember_token',
     ];
 
-    public function addresses()
-    {
-        return $this->hasMany(UserAddress::class);
-    }
-    
+    /**
+     * Get the favorite products for user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function favoriteProducts()
     {
         return $this->belongsToMany(Product::class, 'user_favorite_products')
             ->withTimestamps()
             ->orderBy('user_favorite_products.created_at', 'desc');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(UserAddress::class);
     }
 
     public function cartItems()

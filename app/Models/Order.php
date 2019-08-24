@@ -20,19 +20,24 @@ class Order extends Model
     const SHIP_STATUS_RECEIVED = 'received';
 
     public static $refundStatusMap = [
-        self::REFUND_STATUS_PENDING    => 'primary',
-        self::REFUND_STATUS_APPLIED    => 'info',
+        self::REFUND_STATUS_PENDING => 'primary',
+        self::REFUND_STATUS_APPLIED => 'info',
         self::REFUND_STATUS_PROCESSING => 'warning',
-        self::REFUND_STATUS_SUCCESS    => 'success',
-        self::REFUND_STATUS_FAILED     => 'danger',
+        self::REFUND_STATUS_SUCCESS => 'success',
+        self::REFUND_STATUS_FAILED => 'danger',
     ];
 
     public static $shipStatusMap = [
-        self::SHIP_STATUS_PENDING   => 'primary',
+        self::SHIP_STATUS_PENDING => 'primary',
         self::SHIP_STATUS_DELIVERED => 'danger',
-        self::SHIP_STATUS_RECEIVED  => 'success',
+        self::SHIP_STATUS_RECEIVED => 'success',
     ];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'no',
         'address',
@@ -50,6 +55,11 @@ class Order extends Model
         'extra',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'closed'    => 'boolean',
         'reviewed'  => 'boolean',
@@ -58,13 +68,24 @@ class Order extends Model
         'extra'     => 'json',
     ];
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
     protected $dates = [
         'paid_at',
     ];
 
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
     protected static function boot()
     {
         parent::boot();
+
         // 監聽模型創建事件，在寫入數據庫之前觸發
         static::creating(function ($model) {
             // 如果模型的 no 字段為空
@@ -77,6 +98,11 @@ class Order extends Model
         });
     }
 
+    /**
+     * Find available no.
+     *
+     * @return string|bool
+     */
     public static function findAvailableNo()
     {
         // 訂單流水號前綴
@@ -93,7 +119,31 @@ class Order extends Model
 
         return false;
     }
-    
+
+    /**
+     * Get the refund status color attribute.
+     *
+     * @return string
+     */
+    public function getRefundStatusColorAttribute()
+    {
+        return static::$refundStatusMap[$this->refund_status];
+    }
+
+    /**
+     * Get available refund no.
+     *
+     * @return string
+     */
+    public static function getAvailableRefundNo()
+    {
+        do {
+            $no = Uuid::uuid4()->getHex();
+        } while (self::where('refund_no', $no)->exists());
+
+        return $no;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -102,19 +152,5 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
-    }
-
-    public function getRefundStatusColorAttribute()
-    {
-        return static::$refundStatusMap[$this->refund_status];
-    }
-
-    public static function getAvailableRefundNo()
-    {
-        do {
-            $no = Uuid::uuid4()->getHex();
-        } while (self::where('refund_no', $no)->exists());
-
-        return $no;
     }
 }

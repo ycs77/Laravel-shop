@@ -42,16 +42,6 @@ class ProductSku extends Model
     }
 
     /**
-     * Get the attribute's product.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
-
-    /**
      * Decrease product sku stock.
      *
      * @param  int  $amount
@@ -82,5 +72,10 @@ class ProductSku extends Model
         }
 
         $this->increment('stock', $amount);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 }
