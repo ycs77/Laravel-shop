@@ -50,7 +50,9 @@ class UserAddressController extends Controller
     {
         $request->user()->addresses()->create($request->only($this->field));
 
-        return redirect()->route('user_addresses.index')->with('alerts', __('crud.success.create'));
+        flash(__('crud.success.create'))->success()->important();
+
+        return redirect()->route('user_addresses.index');
     }
 
     /**
@@ -79,7 +81,9 @@ class UserAddressController extends Controller
 
         $user_address->update($request->only($this->field));
 
-        return redirect()->route('user_addresses.index')->with('alerts', __('crud.success.update'));
+        flash(__('crud.success.update'))->success()->important();
+
+        return redirect()->route('user_addresses.index');
     }
 
     /**
@@ -94,6 +98,8 @@ class UserAddressController extends Controller
 
         $user_address->delete();
 
-        return redirect()->route('user_addresses.index')->with('alerts', __('crud.success.delete'));
+        flash(__('crud.success.delete'))->success()->important();
+
+        return redirect()->route('user_addresses.index');
     }
 }

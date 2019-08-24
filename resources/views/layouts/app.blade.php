@@ -16,9 +16,9 @@
     <div id="app" class="{{ route_class() }}-page">
       @include('layouts._header')
 
-      <div id="alert-block"></div>
+      <div class="container my-3">
+        @include('flash::message')
 
-      <div class="container my-5">
         @yield('content')
       </div>
 
@@ -28,8 +28,6 @@
     {{-- JS腳本 --}}
     <script src="{{ asset(mix('js/app.js')) }}"></script>
     @stack('script')
-
-    @include('layouts._alerts')
 
   </body>
 </html>

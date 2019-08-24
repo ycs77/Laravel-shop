@@ -14,10 +14,6 @@ Vue.component('UserAddressesCreateAndEdit', UserAddressesCreateAndEdit)
 Vue.component('SearchBar', SearchBar)
 Vue.component('ProductShow', ProductShow)
 
-setOptions({
-    container: '#alert-block'
-})
-
 const app = new Vue({
     el: '#app'
 })

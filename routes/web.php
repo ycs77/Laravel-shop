@@ -34,6 +34,4 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('products', 'ProductController')->only(['index', 'show']);
 
-Route::get('alert/{route}/{message}', 'AlertController@handle');
-
 Route::post('payment/website/notify', 'PaymentController@websiteNotify')->name('payment.website.notify');
