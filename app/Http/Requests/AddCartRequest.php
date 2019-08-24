@@ -15,7 +15,6 @@ class AddCartRequest extends Request
     {
         return [
             'sku_id' => [
-                'required',
                 function ($attribute, $value, $fail) {
                     if (!$sku = ProductSku::find($value)) {
                         return $fail('該商品不存在');
@@ -39,13 +38,6 @@ class AddCartRequest extends Request
     {
         return [
             'amount' => '商品數量'
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'sku_id.required' => '請選擇商品'
         ];
     }
 }

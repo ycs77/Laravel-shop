@@ -35,7 +35,14 @@
       </tr>
       @foreach($order->items as $item)
       <tr>
-        <td>{{ $item->product->title }} {{ $item->productSku->title }}</td>
+        <td>
+          <div>{{ $item->product->title }}</div>
+          <div class="text-muted">
+            @foreach ($item->productSku->attrs as $attr_name => $attr_item)
+              <span class="mr-2"><b>{{ $attr_name }}: </b>{{ $attr_item }}</span>
+            @endforeach
+          </div>
+        </td>
         <td>${{ $item->price }}</td>
         <td>{{ $item->amount }}</td>
       </tr>

@@ -5,7 +5,7 @@
 @section('content')
 
   @card
-    <product-show inline-template>
+    <product-show :init-skus='@json($skus)' inline-template>
       <div class="product-info">
 
         <div class="row">
@@ -25,23 +25,24 @@
                 評分 <span class="count">{{ str_repeat('★', floor($product->rating)) }}{{ str_repeat('☆', 5 - floor($product->rating)) }}</span>
               </div>
             </div>
+
+            <input type="hidden" name="sku" :value="sku ? sku.id : ''">
+            @foreach($product->attrs as $attr_index => $attr)
             <div class="skus">
-              <label>選擇</label>
+              <label>{{ $attr->name }}</label>
               <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-                @foreach($product->skus as $sku)
-                  <label class="btn btn-outline-primary sku-btn"
-                      title="{{ $sku->description }}"
-                      data-toggle="tooltip"
-                      data-placement="bottom"
-                      @click="skuSelected({{ $sku->price }}, {{ $sku->stock }})">
-                    <input type="radio" name="skus" autocomplete="off" value="{{ $sku->id }}"> {{ $sku->title }}
+                @foreach($attr->items as $item_index => $item)
+                  <label class="btn btn-outline-primary" @click="skuSelected({{ $attr_index }}, {{ $item_index }})">
+                    <input type="radio" autocomplete="off"> {{ $item }}
                   </label>
                 @endforeach
               </div>
             </div>
+            @endforeach
+
             <div class="cart_amount">
               <label>數量</label>
-              <input type="number" class="form-control form-control-sm" value="1" min="0" max="9999">
+              <input type="number" class="form-control form-control-sm" value="1" min="0" :max="stock">
               <span>件</span>
               <span class="stock" v-if="showStock">庫存：@{{ stock }}件</span>
             </div>
@@ -75,28 +76,26 @@
 
             {{-- 用戶評價 --}}
             <div class="tab-pane fade" id="reviews" role="tabpanel">
-              <table class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <td>用戶</td>
-                    <td>商品</td>
-                    <td>評分</td>
-                    <td>評價</td>
-                    <td>時間</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach($reviews as $review)
-                  <tr>
-                    <td>{{ $review->order->user->name }}</td>
-                    <td>{{ $review->productSku->title }}</td>
-                    <td>{{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}</td>
-                    <td>{{ $review->review }}</td>
-                    <td>{{ $review->reviewed_at->format('Y-m-d H:i') }}</td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
+              @foreach($reviews as $review)
+              <div class="media mb-3">
+                <img src="{{ asset('svg/user.svg') }}" class="user-avatar rounded-circle mr-3">
+                <div class="media-body">
+                  <div class="text-muted">
+                    <small>{{ $review->order->user->name }} · {{ $review->reviewed_at->diffForHumans(now()) }}</small>
+                  </div>
+                  <div>{{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}</div>
+                  <div class="my-1">{{ $review->review }}</div>
+                  <div class="text-muted">
+                    <small>
+                      規格：
+                      @foreach ($review->productSku->attrs as $attr_name => $attr_item)
+                        <span class="mr-2">{{ $attr_name }}: {{ $attr_item }}</span>
+                      @endforeach
+                    </small>
+                  </div>
+                </div>
+              </div>
+              @endforeach
             </div>
           </div>
         </div>
@@ -110,8 +109,6 @@
 @push('script')
   <script>
     $(function () {
-      $('[data-toggle="tooltip"]').tooltip({ trigger: 'hover' })
-
       $('.btn-faver').click(function () {
         axios.post('{{ route('products.favor', ['product' => $product->id]) }}').then(function () {
           swal('成功加入收藏', '', 'success').then(function () {
@@ -140,7 +137,7 @@
 
       $('.btn-add-to-cart').click(function () {
         axios.post('{{ route('cart.add') }}', {
-          sku_id: $('label.active input[name=skus]').val(),
+          sku_id: $('input[name=sku]').val(),
           amount: $('.cart_amount input').val()
         }).then(function () {
           swal('成功加入購物車', '', 'success').then(function () {

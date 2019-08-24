@@ -33,12 +33,16 @@
                 </a>
               </div>
               <div>
-                <span class="product-title">
+                <div class="product-title">
                   <a target="_blank" href="{{ route('products.show', $item->product) }}">
                     {{ $item->product->title }}
                   </a>
-                </span>
-                <span class="sku-title">{{ $item->productSku->title }}</span>
+                </div>
+                <small class="sku-title">
+                  @foreach ($item->productSku->attrs as $attr_name => $attr_item)
+                    <span class="mr-2"><b>{{ $attr_name }}: </b>{{ $attr_item }}</span>
+                  @endforeach
+                </small>
               </div>
               <input type="hidden" name="reviews[{{ $index }}][id]" value="{{ $item->id }}">
             </td>

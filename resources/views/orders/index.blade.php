@@ -37,10 +37,14 @@
                         </a>
                       </div>
                       <div>
-                        <span class="product-title">
+                        <div class="product-title">
                           <a target="_blank" href="{{ route('products.show', [$item->product]) }}">{{ $item->product->title }}</a>
-                        </span>
-                        <span class="sku-title">{{ $item->productSku->title }}</span>
+                        </div>
+                        <small class="sku-title">
+                          @foreach ($item->productSku->attrs as $attr_name => $attr_item)
+                            <span class="mr-2"><b>{{ $attr_name }}: </b>{{ $attr_item }}</span>
+                          @endforeach
+                        </small>
                       </div>
                     </td>
                     <td class="sku-price text-center">${{ $item->price }}</td>
@@ -69,7 +73,7 @@
                       @endif
                     </td>
                     <td rowspan="{{ count($order->items) }}" class="text-center">
-                      
+
                       {{-- 訂單 --}}
                       <a class="btn btn-primary btn-sm" href="{{ route('orders.show', $order) }}">
                         查看訂單

@@ -1,0 +1,14 @@
+[v-cloak] {
+  display: none !important;
+}
+
+.product-form-sku-field {
+  .control-label {
+    padding-right: 8px !important;
+    font-weight: normal !important;
+  }
+  .form-control {
+    width: 80px !important;
+    display: inline-block !important;
+  }
+}

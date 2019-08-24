@@ -83,7 +83,7 @@ mysql laravel-shop < database/admin.sql
 php artisan db:seed
 ```
 
-前端(CSS & JS)套件
+編譯前端(CSS & JS)套件
 
 ```
 npm install

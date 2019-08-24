@@ -2,33 +2,85 @@
 
 namespace App\Models;
 
-use App\Models\Product;
 use App\Exceptions\InternalException;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductSku extends Model
 {
-    protected $fillable = ['title', 'description', 'price', 'stock'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'price', 'stock', 'attr_items_index',
+    ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'price' => 'integer',
+        'stock' => 'integer',
+        'attr_items_index' => 'array',
+    ];
+
+    /**
+     * Get the product sku's attributes items.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAttrsAttribute()
+    {
+        $attrs = $this->product->attrs;
+        return collect($this->attr_items_index)->mapWithKeys(function ($item_index, $index) use ($attrs) {
+            $attr = $attrs->get($index);
+            return [$attr->name => $attr->items[$item_index]];
+        });
+    }
+
+    /**
+     * Get the attribute's product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
+    /**
+     * Decrease product sku stock.
+     *
+     * @param  int  $amount
+     * @return int
+     */
     public function decreaseStock($amount)
     {
         if ($amount < 0) {
             throw new InternalException('減少的庫存量不可小於0');
         }
 
-        return $this->newQuery()->where('id', $this->id)->where('stock', '>=', $amount)->decrement('stock', $amount);
+        return $this->query()
+            ->where('id', $this->id)
+            ->where('stock', '>=', $amount)
+            ->decrement('stock', $amount);
     }
 
+    /**
+     * Add product sku stock.
+     *
+     * @param  int  $amount
+     * @return int
+     */
     public function addStock($amount)
     {
         if ($amount < 0) {
             throw new InternalException('增加的庫存量不可小於0');
         }
+
         $this->increment('stock', $amount);
     }
 }
