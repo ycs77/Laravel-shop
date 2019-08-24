@@ -11,7 +11,7 @@
 管理後台：
 * 網址：http://laravel-shop.test/ls-admin
 * 帳號：admin
-* 密碼：secret
+* 密碼：password
 
 ![Laravel shop 商城 首頁](/docs/example-1.jpg)
 ![Laravel shop 商城 商品頁](/docs/example-2.jpg)
