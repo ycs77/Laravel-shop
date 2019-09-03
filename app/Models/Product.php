@@ -25,6 +25,10 @@ class Product extends Model
      */
     protected $casts = [
         'on_sale' => 'boolean',
+        'rating' => 'integer',
+        'sold_count' => 'integer',
+        'review_count' => 'integer',
+        'price' => 'integer',
     ];
 
     /**
