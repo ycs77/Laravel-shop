@@ -17,8 +17,8 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
     ]);
 
     return [
-        'title'        => $faker->word,
-        'description'  => $faker->sentence,
+        'title'        => $faker->name . '商品',
+        'description'  => $faker->realText(50),
         'image'        => $image,
         'on_sale'      => true,
         'rating'       => $faker->numberBetween(0, 5),
