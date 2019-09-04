@@ -14,7 +14,7 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        $products = factory(Product::class, 1)->create();
+        $products = factory(Product::class, 20)->create();
 
         foreach ($products as $product) {
             /** @var \Illuminate\Support\Collection $attrs */
