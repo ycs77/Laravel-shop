@@ -16,7 +16,7 @@ class FlashMessages
     public function handle($request, Closure $next)
     {
         if ($request->session()->get('verified')) {
-            flash(__('Successful verification'))->success()->important();
+            flash(__('E-mail 驗證成功'))->success()->important();
         }
 
         return $next($request);

@@ -47,7 +47,7 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetResponse(Request $request, $response)
     {
-        flash(__('Successful password reset'))->success()->important();
+        flash(__('密碼重設成功'))->success()->important();
 
         return redirect($this->redirectPath());
     }
