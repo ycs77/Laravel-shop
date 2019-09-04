@@ -44,7 +44,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        redirectTo()->setIntendedUrl();
+        redirect()->setIntendedUrl(url()->previous());
 
         return view('auth.login');
     }

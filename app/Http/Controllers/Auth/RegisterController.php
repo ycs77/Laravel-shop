@@ -48,7 +48,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        redirectTo()->setIntendedUrl();
+        redirect()->setIntendedUrl(url()->previous());
 
         return view('auth.register');
     }
