@@ -30,6 +30,15 @@ class User extends Authenticatable implements MustVerifyEmailContract
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    /**
      * Get the favorite products for user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

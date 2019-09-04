@@ -3,15 +3,12 @@
 /public/storage
 /storage/*.key
 /vendor
-/.idea
-/.vscode
-/.vagrant
+.env
+.phpunit.result.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-.env
-.phpunit.result.cache
 /public/js
 /public/css
 /public/fonts
