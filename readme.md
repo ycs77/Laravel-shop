@@ -1,8 +1,8 @@
 # Laravel shop 商城
 
-用 Laravel 5.7 開發的簡易商城，前端介面採用 Bootstrap 4。
+用 Laravel 5.8 開發的簡易商城，前端介面採用 Bootstrap 4。
 
-> 本專案是基於 [Laravel 教程 - 电商实战](https://learnku.com/courses/laravel-shop/5.7) 擴展。
+> 本專案是基於 [Laravel 教程 - 电商实战](https://learnku.com/courses/laravel-shop/5.8) 擴展。
 
 ### 功能包含
 * 用戶登入
