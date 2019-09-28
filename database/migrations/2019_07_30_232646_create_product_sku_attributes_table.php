@@ -14,10 +14,10 @@ class CreateProductSkuAttributesTable extends Migration
     public function up()
     {
         Schema::create('product_sku_attributes', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name');
             $table->text('items');
-            $table->unsignedInteger('product_id');
+            $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });
