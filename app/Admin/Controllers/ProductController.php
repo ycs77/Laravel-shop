@@ -246,7 +246,7 @@ class ProductController extends Controller
         });
 
         // Remove deleted input skus
-        $originalAttrItemsIndex = $product->skus->map->attr_items_index;
+        $originalAttrItemsIndex = $product->skus->map->attr_items_index->toBase();
         $skusAttrItemsIndex = $skus->map(function ($sku) {
             return $sku['attr_items_index'];
         });
