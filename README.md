@@ -86,6 +86,8 @@ mysql laravel-shop < database/admin.sql
 
 產生測試資料
 
+> 在 PHP 7.4 中執行會報錯，需要使用 PHP 7.2 執行。如果使用 Homestead 可以直接執行 `php7.2 artisan db:seed`。
+
 ```
 php artisan db:seed
 ```
