@@ -60,6 +60,17 @@ composer install
 cp .env.example .env
 ```
 
+若使用非本地的環境開發 (Homestead、Docker等)，需要配置本地及遠端的根目錄映射。例：
+
+> `IGNITION_REMOTE_SITES_PATH` 為遠端根目錄
+> `IGNITION_LOCAL_SITES_PATH` 為本地端根目錄
+
+*.env*
+```
+IGNITION_REMOTE_SITES_PATH="/home/vagrant/code/laravel-shop"
+IGNITION_LOCAL_SITES_PATH="D:\\dev\\code\\laravel-shop"
+```
+
 生成金鑰
 
 ```
