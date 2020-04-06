@@ -20,7 +20,7 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($addresses as $address)
+        @foreach ($user_address as $address)
           <tr>
             <td>{{ $address->contact_name }}</td>
             <td>{{ $address->full_address }}</td>
